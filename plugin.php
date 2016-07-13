@@ -82,3 +82,66 @@ function revert_update_if_unprivileged( $post_id, $post_after, $post_before ) {
 
 }
 add_action( 'post_updated', 'revert_update_if_unprivileged', 10, 3 );
+
+
+function lrp_debug() {
+	// Role: Instructional Designer (Based on Editor + Admin (Some admin traits))
+	remove_role( 'ohr_content_editor' );
+	add_role( 'ohr_content_editor', 'OHR Content Editor', array(
+		// Administrator capabilities:
+		// 'update_core' => true,
+		// 'manage_options' => true,
+		// 'edit_dashboard' => true,
+		// 'install_plugins' => true,
+		// 'activate_plugins' => true,
+		// 'update_plugins' => true,
+		// 'edit_plugins' => true,
+		// 'delete_plugins' => true,
+		// 'install_themes' => true,
+		// 'switch_themes' => true,
+		// 'update_themes' => true,
+		// 'edit_themes' => true,
+		// 'delete_themes' => true,
+		// 'edit_theme_options' => true,
+		// 'create_users' => true,
+		// 'list_users' => true,
+		// 'edit_users' => true,
+		// 'promote_users' => true,
+		// 'remove_users' => true,
+		// 'delete_users' => true,
+		// 'edit_files' => true,
+		// 'export' => true,
+		// 'import' => true,
+		// Editor capabilities:
+		'unfiltered_html' => true,
+		// 'manage_categories' => true,
+		// 'manage_links' => true,
+		// 'moderate_comments' => true,
+		// 'edit_pages' => true,
+		// 'delete_pages' => true,
+		// 'publish_pages' => true,
+		// 'edit_published_pages' => true,
+		// 'delete_published_pages' => true,
+		// 'edit_others_pages' => true,
+		// 'delete_others_pages' => true,
+		// 'read_private_pages' => true,
+		// 'edit_private_pages' => true,
+		// 'delete_private_pages' => true,
+		'edit_others_posts' => true,
+		// 'delete_others_posts' => true,
+		// 'read_private_posts' => true,
+		// 'edit_private_posts' => true,
+		// 'delete_private_posts' => true,
+		// Author capabilities:
+		'upload_files' => true,
+		// 'publish_posts' => true,
+		'edit_published_posts' => true,
+		// 'delete_published_posts' => true,
+		// Contributor capabilities:
+		'edit_posts' => true,
+		'delete_posts' => true,
+		// Subscriber capabilities:
+		'read' => true,
+	));
+}
+add_action( 'init', 'lrp_debug' );
