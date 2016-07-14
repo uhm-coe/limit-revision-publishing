@@ -4,7 +4,7 @@
 ( function ( $ ) {
 	$( document ).ready( function( $ ) {
 
-		$( '#publish' ).val( 'Submit for Review' );
+		$( '#publish, $original_publish' ).val( 'Submit for Review' );
 
 	});
 })( jQuery );
