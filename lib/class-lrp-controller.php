@@ -53,7 +53,7 @@ class LRP_Controller {
 				'lrp-modify-publish-metabox',
 				'lrp_L10n',
 				array(
-					'update' => __( 'Update' ),
+					'update' => __( 'Update', $this->textdomain ),
 				)
 			);
 		}
