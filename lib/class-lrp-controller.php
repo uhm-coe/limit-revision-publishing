@@ -3,7 +3,7 @@
 class LRP_Controller {
 	public $textdomain = 'limit-revision-publishing';
 	public $reviewers = array();
-	private $done = false;
+	private $is_reverting = false;
 
 	/**
 	 * Class constructor.
@@ -38,29 +38,30 @@ class LRP_Controller {
 	function save_post__revert_if_unprivileged( $post_id, $post, $update ) {
 		global $wp_post_types;
 
-		// Allow this save (don't revert) if we've already reverted, if this post
-		// isn't published yet, if this is an autosave, or if the current user has
-		// the publish_{post_type} capability.
+		// Prevent this save (revert to previous revision) if we haven't already
+		// reverted, this post is published, it's not an autosave, and the current
+		// user doesn't have the publish_{post_type} capability.
 		if (
-			$this->done ||
-			$post->post_status !== 'publish' ||
-			( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) ||
-			current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts )
+			! $this->is_reverting &&
+			$post->post_status === 'publish' &&
+			! ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) &&
+			! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts )
 		) {
-			return;
+			// Flag that we're reverting (save_post hook will get called again below
+			// in wp_restore_post_revision(), so we don't want this to keep firing).
+			$this->is_reverting = true;
+
+			// Revert to previous revision (latest revision is this one, so we want the
+			// one right before it).
+			$previous_revision = array_pop( wp_get_post_revisions( $post_id, array(
+				'posts_per_page' => 2,
+				'cache_results' => false,
+			) ) );
+			wp_restore_post_revision( $previous_revision );
+
+			// TODO: send notification emails to reviewers.
+
 		}
-
-		// Revert to previous revision (latest revision is this one, so we want the
-		// one right before it).
-		$this->done = true;
-		$previous_revision = array_pop( wp_get_post_revisions( $post_id, array(
-			'posts_per_page' => 2,
-			'cache_results' => false,
-		) ) );
-		wp_restore_post_revision( $previous_revision );
-
-		// TODO: send notification emails to reviewers.
-
 	}
 
 }
