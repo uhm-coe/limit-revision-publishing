@@ -28,7 +28,7 @@ if ( class_exists( 'LRP_Controller' ) ) {
 
 
 function lrp_debug() {
-	// Role: Instructional Designer (Based on Editor + Admin (Some admin traits))
+	// Role: OHR Content Editor
 	remove_role( 'ohr_content_editor' );
 	add_role( 'ohr_content_editor', 'OHR Content Editor', array(
 		// Administrator capabilities:
