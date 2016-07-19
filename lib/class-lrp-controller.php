@@ -83,15 +83,20 @@ class LRP_Controller {
 			// in wp_restore_post_revision(), so we don't want this to keep firing).
 			$this->is_reverting = true;
 
-			// Revert to previous revision (latest revision is this one, so we want the
-			// one right before it).
-			$previous_revision = array_pop( wp_get_post_revisions( $post_id, array(
+			// Get recent revisions (the latest revision is this one, so we want the
+			// one right before so we can restore it).
+			$recent_revisions = array_pop( wp_get_post_revisions( $post_id, array(
 				'posts_per_page' => 2,
 				'cache_results' => false,
 			) ) );
+			$current_revision = array_shift( $recent_revisions );
+			$previous_revision = array_shift( $recent_revisions );
+
+			// Revert to previous revision.
 			wp_restore_post_revision( $previous_revision );
 
-			// TODO: add flag (in postmeta) showing this post has revisions pending.
+			// Add postmeta flag indicating this post has a revision pending.
+			update_post_meta( $post_id, 'lrp_pending_revision', $current_revision->ID );
 
 			// TODO: send notification emails to reviewers.
 
