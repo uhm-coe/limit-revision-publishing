@@ -97,14 +97,16 @@ class LRP_Controller {
 
 		}
 
-		// TODO: options page:
-		// * role/users to email when a revision is created.
-
 		// TODO: add column to edit.php (page/post list) like comments showing pending revisions.
 
 		// TODO: redirect users with approval permissions to revision browser at the pending revision when they try to edit the post (post.php).
 
 		// TODO: load pending revision contents when unprivileged users try to edit a post with pending revisions.
+
+		// TODO: options page:
+		// * role/users to email when a revision is created.
+		// parse roles, show which category they fall into (edit_published_x but not publish_x means can only submit revisions).
+
 	}
 
 }
