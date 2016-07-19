@@ -26,6 +26,8 @@ class LRP_Controller {
 			1, 3
 		);
 
+		// Add sortable columns.
+		$controller = new LRP_Sortable_Column_Controller();
 	}
 
 
@@ -117,9 +119,6 @@ class LRP_Controller {
 
 		}
 	}
-
-
-	// TODO: add column to edit.php (page/post list) like comments showing pending revisions.
 
 
 	// TODO: redirect users with approval permissions to revision browser at the pending revision when they try to edit the post (post.php).

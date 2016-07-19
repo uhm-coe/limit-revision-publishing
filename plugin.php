@@ -20,6 +20,9 @@
 if ( ! class_exists( 'LRP_Controller' ) ) {
 	require_once dirname( __FILE__ ) . '/lib/class-lrp-controller.php';
 }
+if ( ! class_exists( 'LRP_Sortable_Column_Controller' ) ) {
+	require_once dirname( __FILE__ ) . '/lib/class-lrp-sortable-column-controller.php';
+}
 
 // Instantiate plugin.
 if ( class_exists( 'LRP_Controller' ) ) {
