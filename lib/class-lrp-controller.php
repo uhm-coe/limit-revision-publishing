@@ -15,10 +15,12 @@ class LRP_Controller {
 			array( $this, 'plugins_loaded__load_textdomain' ),
 			10, 1
 		);
+
 		add_action( 'admin_enqueue_scripts',
 			array( $this, 'admin_enqueue_scripts__modify_publish_metabox' ),
 			10, 1
 		);
+
 		add_action( 'save_post',
 			array( $this, 'save_post__revert_if_unprivileged' ),
 			1, 3
