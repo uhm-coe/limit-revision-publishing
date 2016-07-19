@@ -5,6 +5,7 @@ class LRP_Controller {
 	public $reviewers = array();
 	private $is_reverting = false;
 
+
 	/**
 	 * Class constructor.
 	 * Register all plugin hooks.
@@ -15,6 +16,7 @@ class LRP_Controller {
 		add_action( 'save_post', array( $this, 'save_post__revert_if_unprivileged' ), 1, 3 );
 
 	}
+
 
 	/**
 	 * Load textdomain for internationalization.
@@ -27,6 +29,7 @@ class LRP_Controller {
 			plugin_basename( dirname( dirname( __FILE__ ) ) ) . '/languages'
 		);
 	}
+
 
 	/**
 	 * Add script to modify the publish metabox to allow users without publish
@@ -58,6 +61,7 @@ class LRP_Controller {
 			);
 		}
 	}
+
 
 	/**
 	 * Save this post as a revision and revert to the previous revision if the
@@ -101,17 +105,21 @@ class LRP_Controller {
 			// TODO: send notification emails to reviewers.
 
 		}
-
-		// TODO: add column to edit.php (page/post list) like comments showing pending revisions.
-
-		// TODO: redirect users with approval permissions to revision browser at the pending revision when they try to edit the post (post.php).
-
-		// TODO: load pending revision contents when unprivileged users try to edit a post with pending revisions.
-
-		// TODO: options page:
-		// * role/users to email when a revision is created.
-		// parse roles, show which category they fall into (edit_published_x but not publish_x means can only submit revisions).
-
 	}
+
+
+	// TODO: add column to edit.php (page/post list) like comments showing pending revisions.
+
+
+	// TODO: redirect users with approval permissions to revision browser at the pending revision when they try to edit the post (post.php).
+
+
+	// TODO: load pending revision contents when unprivileged users try to edit a post with pending revisions.
+
+
+	// TODO: options page:
+	// * role/users to email when a revision is created.
+	// parse roles, show which category they fall into (edit_published_x but not publish_x means can only submit revisions).
+
 
 }
