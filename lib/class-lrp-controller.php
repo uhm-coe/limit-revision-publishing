@@ -26,6 +26,12 @@ class LRP_Controller {
 			1, 3
 		);
 
+		// Add admin notice when editing a page with pending revisions.
+		add_action( 'admin_notices',
+			array( $this, 'admin_notices__warn_when_editing_post_with_pending_revision' ),
+			10, 1
+		);
+
 		// Add sortable columns.
 		$controller = new LRP_Sortable_Column_Controller();
 	}
@@ -121,7 +127,20 @@ class LRP_Controller {
 	}
 
 
-	// TODO: redirect users with approval permissions to revision browser at the pending revision when they try to edit the post (post.php).
+	// Warn users with the publish capability if they are editing a post with
+	// pending revisions. Provide them a link to the revisions browser.
+	function admin_notices__warn_when_editing_post_with_pending_revision() {
+		global $post, $wp_post_types;
+		$screen = get_current_screen();
+
+		if (
+			$screen->base === 'post' &&
+			current_user_can( $wp_post_types[$screen->post_type]->cap->publish_posts ) &&
+			$pending_revision_id = intval( get_post_meta( $post->ID, 'lrp_pending_revision', true ) )
+		) {
+			?><div class="notice notice-warning"><p><span class="dashicons dashicons-warning" style="color: red;"></span> A revision is pending. Please <a href="<?php echo admin_url( 'revision.php?revision=' . $pending_revision_id ); ?>">approve or deny the revision</a> before making further changes.</p></div><?php
+		}
+	}
 
 
 	// TODO: load pending revision contents when unprivileged users try to edit a post with pending revisions.
