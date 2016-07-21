@@ -8,7 +8,7 @@ class LRP_Controller {
 
 	/**
 	 * Class constructor.
-	 * Register all plugin hooks.
+	 * Register hooks.
 	 */
 	function __construct() {
 		add_action( 'plugins_loaded',
@@ -21,7 +21,7 @@ class LRP_Controller {
 			1, 3
 		);
 
-		// Add sortable columns.
+		// Add sortable column to All Posts showing which posts have pending revisions.
 		$controller = new LRP_Sortable_Column_Controller();
 
 		// Add modifications to Edit Post form for unprivileged users.
