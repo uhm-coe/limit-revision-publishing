@@ -34,16 +34,19 @@ class LRP_Edit_Form_Controller {
 	/**
 	 * Add script to modify the publish metabox to allow users without publish
 	 * capabilities to submit a revision for approval.
+	 *
 	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/admin_enqueue_scripts
+	 *
+	 * @param  string $hook_suffix The current admin page.
 	 */
-	function admin_enqueue_scripts__modify_publish_metabox( $hook ) {
+	function admin_enqueue_scripts__modify_publish_metabox( $hook_suffix ) {
 		global $post, $wp_post_types;
 
 		// If we're editing a post and the current user doesn't have the
 		// publish_{post_type} capability, load the javascript that modifies the
 		// publish metabox.
 		if (
-			$hook === 'post.php' &&
+			$hook_suffix === 'post.php' &&
 			! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts )
 		) {
 			wp_enqueue_script(
@@ -63,8 +66,12 @@ class LRP_Edit_Form_Controller {
 	}
 
 
-	// Warn users with the publish capability if they are editing a post with
-	// pending revisions. Provide them a link to the revisions browser.
+	/**
+	 * Warn users with the publish capability if they are editing a post with
+	 * pending revisions. Provide them a link to the revisions browser.
+	 *
+	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices
+	 */
 	function admin_notices__warn_when_editing_post_with_pending_revision() {
 		global $post, $wp_post_types;
 		$screen = get_current_screen();
@@ -79,8 +86,14 @@ class LRP_Edit_Form_Controller {
 	}
 
 
-	// Load pending revision contents when unprivileged users try to edit a post
-	// with pending revisions.
+	/**
+	 * Load pending revision contents when unprivileged users try to edit a post
+	 * with pending revisions.
+	 *
+	 * Action hook: https://developer.wordpress.org/reference/hooks/edit_form_top/
+	 *
+	 * @param  WP_Post $post_object Post object.
+	 */
 	function edit_form_top__unprivileged_users_see_pending_revision( $post_object ) {
 		global $post, $wp_post_types;
 
@@ -99,8 +112,17 @@ class LRP_Edit_Form_Controller {
 	}
 
 
-	// Load pending revision contents (for ACF fields) when unprivileged users try
-	// to edit a post with pending revisions.
+	/**
+	 * Load pending revision contents (for ACF fields) when unprivileged users try
+	 * to edit a post with pending revisions.
+	 *
+	 * Filter hook: https://www.advancedcustomfields.com/resources/acfload_value/
+	 *
+	 * @param  string $value The value of the field as found in the database.
+	 * @param  int $post_id The post ID which the value was loaded from.
+	 * @param  array $field The field array.
+	 * @return string $value
+	 */
 	function acf_load_value__unprivileged_users_see_pending_revision( $value, $post_id, $field ) {
 		global $wp_post_types;
 

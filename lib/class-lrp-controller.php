@@ -45,7 +45,9 @@ class LRP_Controller {
 	/**
 	 * Save this post as a revision and revert to the previous revision if the
 	 * current user doesn't have the publish_{post_type} capability.
+	 *
 	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/save_post
+	 *
 	 * @param int $post_id The post ID.
 	 * @param post $post The post object.
 	 * @param bool $update Whether this is an existing post being updated or not.
