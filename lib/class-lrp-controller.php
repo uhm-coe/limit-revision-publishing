@@ -36,6 +36,7 @@ class LRP_Controller {
 
 	/**
 	 * Load textdomain for internationalization.
+	 *
 	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/plugins_loaded
 	 */
 	function plugins_loaded__load_textdomain() {
