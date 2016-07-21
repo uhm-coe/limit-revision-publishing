@@ -21,6 +21,11 @@ class LRP_Controller {
 			1, 3
 		);
 
+		add_filter( 'acf/update_value',
+			array( $this, 'acf_update_value__revert_if_unprivileged' ),
+			10, 3
+		);
+
 		// Add sortable column to All Posts showing which posts have pending revisions.
 		$controller = new LRP_Sortable_Column_Controller();
 
@@ -86,6 +91,34 @@ class LRP_Controller {
 			// TODO: send notification emails to reviewers.
 
 		}
+	}
+
+
+	/**
+	 * Workaround: ACF hooks into wp_restore_post_revision to properly restore ACF
+	 * field values when a post revision is restored (by updating the postmeta
+	 * values associated with the published post ID), but it fails to update the
+	 * field values for the newly created revision ID. These values still match
+	 * the previous revision. Use the code below to update the postmeta field
+	 * values attached to the new revision ID with those from the main post ID.
+	 *
+	 * Filter hook: https://www.advancedcustomfields.com/resources/acfupdate_value/
+	 *
+	 * @param  string $value ACF field value
+	 * @param  int $post_id Post ID this postmeta is attached to
+	 * @param  array $field ACF field array
+	 * @return string ACF field value
+	 */
+	function acf_update_value__revert_if_unprivileged( $value, $post_id, $field ) {
+		// If we are creating the "unchanged" revision after the changed revision
+		// (created by wp_restore_post_revision() above), make sure it gets all the
+		// original, unchanged ACF field values.
+		if ( $this->is_reverting && wp_is_post_revision( $post_id ) ) {
+			$parent_post_id = wp_get_post_parent_id( $post_id );
+			$value = get_field( $field['key'], $parent_post_id );
+		}
+
+		return $value;
 	}
 
 
