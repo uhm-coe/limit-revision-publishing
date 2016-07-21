@@ -68,10 +68,10 @@ class LRP_Controller {
 
 			// Get recent revisions (the latest revision is this one, so we want the
 			// one right before so we can restore it).
-			$recent_revisions = array_pop( wp_get_post_revisions( $post_id, array(
+			$recent_revisions = wp_get_post_revisions( $post_id, array(
 				'posts_per_page' => 2,
 				'cache_results' => false,
-			) ) );
+			) );
 			$current_revision = array_shift( $recent_revisions );
 			$previous_revision = array_shift( $recent_revisions );
 
