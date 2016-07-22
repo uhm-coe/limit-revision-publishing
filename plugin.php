@@ -26,6 +26,9 @@ if ( ! class_exists( 'LRP_Sortable_Column_Controller' ) ) {
 if ( ! class_exists( 'LRP_Edit_Form_Controller' ) ) {
 	require_once dirname( __FILE__ ) . '/lib/class-lrp-edit-form-controller.php';
 }
+if ( ! class_exists( 'LRP_Options_Controller' ) ) {
+	require_once dirname( __FILE__ ) . '/lib/class-lrp-options-controller.php';
+}
 
 // Instantiate plugin.
 if ( class_exists( 'LRP_Controller' ) ) {

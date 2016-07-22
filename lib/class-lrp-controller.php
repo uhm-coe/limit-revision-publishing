@@ -31,6 +31,9 @@ class LRP_Controller {
 
 		// Add modifications to Edit Post form for unprivileged users.
 		$controller = new LRP_Edit_Form_Controller();
+
+		// Add plugin options screen.
+		$controller = new LRP_Options_Controller();
 	}
 
 
