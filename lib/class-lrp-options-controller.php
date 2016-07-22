@@ -111,7 +111,7 @@ class LRP_Options_Controller {
 
 	function callback__render_plugin_options_page() {
 		?><div class="wrap">
-			<h1>Limit Revision Publishing</h1>
+			<h1><?php _e( "Limit Revision Publishing", $this->textdomain ); ?></h1>
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'lrp_settings_group' );
@@ -124,7 +124,7 @@ class LRP_Options_Controller {
 
 
 	function callback__render_section_notification_settings() {
-		?><p>When a new revision is submitted for review, send a notification email to the following people.</p><?php
+		?><p><?php _e( "When a new revision is submitted for review, send a notification email to the following people.", $this->textdomain ); ?></p><?php
 	}
 
 
@@ -142,7 +142,7 @@ class LRP_Options_Controller {
 	function callback__render_field_roles_to_notify() {
 		$option = $this->get_option( 'roles_to_notify' );
 		?><select id="lrp_settings_roles_to_notify" name="lrp_settings[roles_to_notify]">
-			<option value="---" <?php selected( $option, '---' ); ?>><?php _e( "None", $this->textdomain ); ?></option>
+			<option value="---" <?php selected( $option, '' ); ?>><?php _e( 'None', $this->textdomain ); ?></option>
 			<?php wp_dropdown_roles( $option ); ?>
 		</select><?php
 	}

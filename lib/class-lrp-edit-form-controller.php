@@ -57,9 +57,10 @@ class LRP_Edit_Form_Controller {
 			);
 			wp_localize_script(
 				'lrp-modify-publish-metabox',
-				'lrp_L10n',
+				'lrp_translations',
 				array(
 					'update' => __( 'Update', $this->textdomain ),
+					'submit_for_review' => __( 'Submit for Review', $this->textdomain ),
 				)
 			);
 		}
