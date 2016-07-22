@@ -126,9 +126,4 @@ class LRP_Controller {
 	}
 
 
-	// TODO: options page:
-	// * role/users to email when a revision is created.
-	// parse roles, show which category they fall into (edit_published_x but not publish_x means can only submit revisions).
-
-
 }

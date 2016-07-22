@@ -5,6 +5,9 @@ class LRP_Options_Controller {
 	public $options_page_slug = 'limit-revision-publishing';
 	public $lrp_settings = array();
 
+	// TODO: options page:
+	// * use select2.js for role/users to email when a revision is created.
+	// * parse roles, show which category they fall into (edit_published_x but not publish_x means can only submit revisions).
 
 	/**
 	 * Class constructor.
