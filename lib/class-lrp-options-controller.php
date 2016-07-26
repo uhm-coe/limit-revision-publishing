@@ -100,12 +100,18 @@ class LRP_Options_Controller {
 			$lrp_settings = array();
 		}
 
-		if ( ! array_key_exists( 'users_to_notify', $lrp_settings ) ) {
-			$lrp_settings['users_to_notify'] = '';
+		if (
+			! array_key_exists( 'users_to_notify', $lrp_settings ) ||
+			! is_array( $lrp_settings['users_to_notify'] )
+		) {
+			$lrp_settings['users_to_notify'] = array();
 		}
 
-		if ( ! array_key_exists( 'roles_to_notify', $lrp_settings ) ) {
-			$lrp_settings['roles_to_notify'] = '';
+		if (
+			! array_key_exists( 'roles_to_notify', $lrp_settings ) ||
+			! is_array( $lrp_settings['roles_to_notify'] )
+		) {
+			$lrp_settings['roles_to_notify'] = array();
 		}
 
 		return $lrp_settings;
@@ -133,21 +139,31 @@ class LRP_Options_Controller {
 
 	function callback__render_field_users_to_notify() {
 		$option = $this->get_option( 'users_to_notify' );
-		wp_dropdown_users( array(
-			'name' => "lrp_settings[users_to_notify]",
-			'id' => "lrp_settings_users_to_notify",
-			'show_option_none' => 'None',
-			'selected' => $option,
-		) );
+		$users = get_users( array() ); ?>
+		<select id="lrp_settings_users_to_notify" name="lrp_settings[users_to_notify][]" multiple="multiple" style="width: 100%;">
+			<?php	foreach ( (array)$users as $user ) :
+				$selected = in_array( $user->ID, $option ) ? ' selected="selected"' : ''; ?>
+				<option value="<?php echo $user->ID; ?>"<?php echo $selected; ?>>
+					<?php echo $user->display_name; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<?php
 	}
 
 
 	function callback__render_field_roles_to_notify() {
 		$option = $this->get_option( 'roles_to_notify' );
-		?><select id="lrp_settings_roles_to_notify" name="lrp_settings[roles_to_notify]">
-			<option value="---" <?php selected( $option, '' ); ?>><?php _e( 'None', $this->textdomain ); ?></option>
-			<?php wp_dropdown_roles( $option ); ?>
-		</select><?php
+		$roles = get_editable_roles(); ?>
+		<select id="lrp_settings_roles_to_notify" name="lrp_settings[roles_to_notify][]" multiple="multiple" style="width: 100%;">
+			<?php foreach ( $roles as $name => $role ) :
+				$selected = in_array( $name, $option ) ? ' selected="selected"' : '';	?>
+				<option value="<?php echo $name; ?>"<?php echo $selected; ?>>
+					<?php echo $role['name']; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<?php
 	}
 
 
