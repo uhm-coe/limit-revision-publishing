@@ -14,6 +14,11 @@ class LRP_Options_Controller {
 	 * Register hooks.
 	 */
 	function __construct() {
+		add_action( 'admin_enqueue_scripts',
+			array( $this, 'admin_enqueue_scripts__add_select2_for_plugin_options' ),
+			10, 1
+		);
+
 		add_action( 'admin_menu',
 			array( $this, 'admin_menu__create_plugin_options_menu_item' ),
 			10, 1
@@ -39,6 +44,48 @@ class LRP_Options_Controller {
 		}
 
 		return $option_value;
+	}
+
+
+	/**
+	 * Add script for select2 so we can use its multi-value select for choosing
+	 * users and roles to notify when a revision is awaiting approval.
+	 *
+	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/admin_enqueue_scripts
+	 *
+	 * @param  string $hook_suffix The current admin page.
+	 */
+	function admin_enqueue_scripts__add_select2_for_plugin_options( $hook_suffix ) {
+		// Only load script on this plugin's options page.
+		if ( $hook_suffix === "settings_page_{$this->options_page_slug}" ) {
+			wp_enqueue_script(
+				'lrp-add-select2-to-options',
+				plugins_url( '/js/add-select2-to-options.js', dirname( __FILE__ ) ),
+				array( 'select2', 'jquery' ),
+				'20160726'
+			);
+			wp_localize_script(
+				'lrp-add-select2-to-options',
+				'lrp_translations',
+				array(
+					'select_users_to_notify' => __( 'Select users to notify', $this->textdomain ),
+					'select_roles_to_notify' => __( 'Select roles to notify', $this->textdomain ),
+				)
+			);
+
+			wp_enqueue_script(
+				'select2',
+				plugins_url( '/vendor/select2-4.0.3/js/select2.min.js', dirname( __FILE__ ) ),
+				array( 'jquery' ),
+				'20160726'
+			);
+			wp_enqueue_style(
+				'select2',
+				plugins_url( '/vendor/select2-4.0.3/css/select2.min.css', dirname( __FILE__ ) ),
+				array(),
+				'20160726'
+			);
+		}
 	}
 
 
