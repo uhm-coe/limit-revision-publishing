@@ -52,7 +52,7 @@ class LRP_Edit_Form_Controller {
 			wp_enqueue_script(
 				'lrp-modify-publish-metabox',
 				plugins_url( '/js/modify-publish-metabox.js', dirname( __FILE__ ) ),
-				array(),
+				array( 'jquery' ),
 				'20160714'
 			);
 			wp_localize_script(
