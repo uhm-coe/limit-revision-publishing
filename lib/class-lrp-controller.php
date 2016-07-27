@@ -119,7 +119,7 @@ class LRP_Controller {
 		// original, unchanged ACF field values.
 		if ( $this->is_reverting && wp_is_post_revision( $post_id ) ) {
 			$parent_post_id = wp_get_post_parent_id( $post_id );
-			$value = get_field( $field['key'], $parent_post_id );
+			$value = get_post_meta( $parent_post_id, $field['name'], true );
 		}
 
 		return $value;
