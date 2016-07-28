@@ -1,7 +1,6 @@
 <?php
 
 class LRP_Edit_Form_Controller {
-	public $textdomain = 'limit-revision-publishing';
 
 
 	/**
@@ -59,8 +58,8 @@ class LRP_Edit_Form_Controller {
 				'lrp-modify-publish-metabox',
 				'lrp_translations',
 				array(
-					'update' => __( 'Update', $this->textdomain ),
-					'submit_for_review' => __( 'Submit for Review', $this->textdomain ),
+					'update' => __( 'Update', 'limit-revision-publishing' ),
+					'submit_for_review' => __( 'Submit for Review', 'limit-revision-publishing' ),
 				)
 			);
 		}

@@ -2,7 +2,6 @@
 
 // Add "Pending Revisions" sortable column to All Posts/Pages.
 class LRP_Sortable_Column_Controller {
-	public $textdomain = 'limit-revision-publishing';
 
 
 	/**
@@ -51,7 +50,7 @@ class LRP_Sortable_Column_Controller {
 	function manage_posts_columns__add_revisions( $columns ) {
 		return array_merge(
 			$columns,
-			array( 'lrp_pending_revision' => __( 'Pending Revision', $this->textdomain ) )
+			array( 'lrp_pending_revision' => __( 'Pending Revision', 'limit-revision-publishing' ) )
 		);
 	}
 

@@ -1,7 +1,6 @@
 <?php
 
 class LRP_Controller {
-	public $textdomain = 'limit-revision-publishing';
 	public $reviewers = array();
 	private $is_reverting = false;
 	private $options_controller;
@@ -45,7 +44,7 @@ class LRP_Controller {
 	 */
 	function plugins_loaded__load_textdomain() {
 		load_plugin_textdomain(
-			$this->textdomain, // 'limit-revision-publishing'
+			'limit-revision-publishing', // 'limit-revision-publishing'
 			false,
 			plugin_basename( dirname( dirname( __FILE__ ) ) ) . '/languages'
 		);

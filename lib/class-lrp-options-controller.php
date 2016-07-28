@@ -1,7 +1,6 @@
 <?php
 
 class LRP_Options_Controller {
-	public $textdomain = 'limit-revision-publishing';
 	public $options_page_slug = 'limit-revision-publishing';
 	public $lrp_settings = array();
 
@@ -68,8 +67,8 @@ class LRP_Options_Controller {
 				'lrp-add-select2-to-options',
 				'lrp_translations',
 				array(
-					'select_users_to_notify' => __( 'Select users to notify', $this->textdomain ),
-					'select_roles_to_notify' => __( 'Select roles to notify', $this->textdomain ),
+					'select_users_to_notify' => __( 'Select users to notify', 'limit-revision-publishing' ),
+					'select_roles_to_notify' => __( 'Select roles to notify', 'limit-revision-publishing' ),
 				)
 			);
 
@@ -96,8 +95,8 @@ class LRP_Options_Controller {
 	 */
 	function admin_menu__create_plugin_options_menu_item() {
 		add_options_page(
-			__( 'Limit Revision Publishing', $this->textdomain ), // Page title
-			__( 'Limit Revision Publishing', $this->textdomain ), // Menu title
+			__( 'Limit Revision Publishing', 'limit-revision-publishing' ), // Page title
+			__( 'Limit Revision Publishing', 'limit-revision-publishing' ), // Menu title
 			'manage_options', // Capability required
 			$this->options_page_slug, // Menu slug
 			array( $this, 'callback__render_plugin_options_page' ) // Renderer callback
@@ -119,14 +118,14 @@ class LRP_Options_Controller {
 
 		add_settings_section(
 			'section_notification_settings', // Section ID (used in 'id' attribute of html tags)
-			__( 'Notification Settings', $this->textdomain ), // Section heading
+			__( 'Notification Settings', 'limit-revision-publishing' ), // Section heading
 			array( $this, 'callback__render_section_notification_settings' ), // Renderer callback
 			$this->options_page_slug // Options page slug on which to show this section
 		);
 
 		add_settings_field(
 			'users_to_notify', // Field ID
-			__( 'Users to notify', $this->textdomain ), // Field title
+			__( 'Users to notify', 'limit-revision-publishing' ), // Field title
 			array( $this, 'callback__render_field_users_to_notify' ), // Renderer callback
 			$this->options_page_slug, // Options page slug on which to show this field
 			'section_notification_settings' // Section slug on which to show this field
@@ -134,7 +133,7 @@ class LRP_Options_Controller {
 
 		add_settings_field(
 			'roles_to_notify', // Field ID
-			__( 'Roles to notify', $this->textdomain ), // Field title
+			__( 'Roles to notify', 'limit-revision-publishing' ), // Field title
 			array( $this, 'callback__render_field_roles_to_notify' ), // Renderer callback
 			$this->options_page_slug, // Options page slug on which to show this field
 			'section_notification_settings' // Section slug on which to show this field
@@ -167,7 +166,7 @@ class LRP_Options_Controller {
 
 	function callback__render_plugin_options_page() {
 		?><div class="wrap">
-			<h1><?php _e( "Limit Revision Publishing", $this->textdomain ); ?></h1>
+			<h1><?php _e( "Limit Revision Publishing", 'limit-revision-publishing' ); ?></h1>
 			<form method="post" action="options.php">
 				<?php
 				settings_fields( 'lrp_settings_group' );
@@ -180,7 +179,7 @@ class LRP_Options_Controller {
 
 
 	function callback__render_section_notification_settings() {
-		?><p><?php _e( "When a new revision is submitted for review, send a notification email to the following people.", $this->textdomain ); ?></p><?php
+		?><p><?php _e( "When a new revision is submitted for review, send a notification email to the following people.", 'limit-revision-publishing' ); ?></p><?php
 	}
 
 
