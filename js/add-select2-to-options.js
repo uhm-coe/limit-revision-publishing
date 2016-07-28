@@ -9,5 +9,6 @@
 		$( '#lrp_settings_roles_to_notify' ).select2({
 			placeholder: lrp_translations.select_roles_to_notify
 		});
+
 	});
 })( jQuery );

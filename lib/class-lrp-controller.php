@@ -26,14 +26,14 @@ class LRP_Controller {
 			10, 3
 		);
 
+		// Add plugin options screen.
+		$this->options_controller = new LRP_Options_Controller();
+
 		// Add sortable column to All Posts showing which posts have pending revisions.
 		$controller = new LRP_Sortable_Column_Controller();
 
 		// Add modifications to Edit Post form for unprivileged users.
 		$controller = new LRP_Edit_Form_Controller();
-
-		// Add plugin options screen.
-		$this->options_controller = new LRP_Options_Controller();
 	}
 
 
