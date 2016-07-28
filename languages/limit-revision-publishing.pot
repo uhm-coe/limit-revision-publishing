@@ -1,0 +1,98 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Limit Revision Publishing\n"
+"POT-Creation-Date: 2016-07-27 14:34-1000\n"
+"PO-Revision-Date: 2016-07-27 14:33-1000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: plugin.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: lib/class-lrp-controller.php:112
+#, php-format
+msgid "Pending revision by %1$s on %2$s"
+msgstr ""
+
+#: lib/class-lrp-controller.php:118
+#, php-format
+msgid ""
+"A new revision has been submitted for review. Please approve or deny it "
+"here:\n"
+"%1$s\n"
+"\n"
+"Title: %2$s\n"
+"Revision submitted by: %3$s <%4$s>"
+msgstr ""
+
+#: lib/class-lrp-edit-form-controller.php:61
+msgid "Update"
+msgstr ""
+
+#: lib/class-lrp-edit-form-controller.php:62
+msgid "Submit for Review"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:70
+msgid "Select users to notify"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:71
+msgid "Select roles to notify"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+#: lib/class-lrp-options-controller.php:98
+#: lib/class-lrp-options-controller.php:99
+#: lib/class-lrp-options-controller.php:169
+msgid "Limit Revision Publishing"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:121
+msgid "Notification Settings"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:128
+msgid "Users to notify"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:136
+msgid "Roles to notify"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:182
+msgid ""
+"When a new revision is submitted for review, send a notification email to "
+"the following people."
+msgstr ""
+
+#: lib/class-lrp-sortable-column-controller.php:53
+msgid "Pending Revision"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/limit-revision-publishing"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Revisions made by users without the publish_{post_type}"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Paul Ryan"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://dcdc.coe.hawaii.edu"
+msgstr ""
