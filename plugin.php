@@ -9,6 +9,8 @@
  * privileges can publish them.
  * Author: Paul Ryan
  * Author URI: https://dcdc.coe.hawaii.edu
+ * Text Domain: limit-revision-publishing
+ * Domain Path: /languages
  * Version: 0.1.0
  * Plugin URI: https://wordpress.org/plugins/limit-revision-publishing
  * License: GPL2+
