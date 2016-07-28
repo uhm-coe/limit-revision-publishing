@@ -4,6 +4,7 @@ class LRP_Controller {
 	public $textdomain = 'limit-revision-publishing';
 	public $reviewers = array();
 	private $is_reverting = false;
+	private $options_controller;
 
 
 	/**
@@ -33,7 +34,7 @@ class LRP_Controller {
 		$controller = new LRP_Edit_Form_Controller();
 
 		// Add plugin options screen.
-		$controller = new LRP_Options_Controller();
+		$this->options_controller = new LRP_Options_Controller();
 	}
 
 
@@ -92,8 +93,38 @@ class LRP_Controller {
 			// Add postmeta flag indicating this post has a revision pending.
 			update_post_meta( $post_id, 'lrp_pending_revision', $current_revision->ID );
 
-			// TODO: send notification emails to reviewers.
+			// Get reviewers to send notifications to.
+			$reviewers = array();
+			$users_to_notify = $this->options_controller->get_option( 'users_to_notify' );
+			foreach ( $users_to_notify as $user_id ) {
+				$reviewers[$user_id] = get_user_by( $user_id );
+			}
+			$users_in_roles = get_users( array(
+				'role__in' => $this->options_controller->get_option( 'roles_to_notify' ),
+			));
+			foreach ( $users_in_roles as $user ) {
+				$reviewers[$user->ID] = $user;
+			}
 
+			// Send notification email to reviewers.
+			$editor = wp_get_current_user();
+			$email_subject = sprintf(
+				/* translators: 1: Email of editor 2: Title of post edited */
+				__( 'Pending revision by %1$s on %2$s', 'limit-revision-publishing' ),
+				$editor->user_email,
+				$previous_revision->post_title
+			);
+			$email_body = sprintf(
+				/* translators: 1: Revision URL 2: Title of post edited 3: Name of editor 4: Email of editor */
+				__( "A new revision has been submitted for review. Please approve or deny it here:\n%1\$s\n\nTitle: %2\$s\nRevision submitted by: %3\$s <%4\$s>", 'limit-revision-publishing' ),
+				admin_url( 'revision.php?revision=' . $current_revision->ID ),
+				$previous_revision->post_title,
+				$editor->display_name,
+				$editor->user_email
+			);
+			foreach ( $reviewers as $user_id => $reviewer ) {
+				wp_mail( $reviewer->user_email, $email_subject, $email_body );
+			}
 		}
 	}
 
