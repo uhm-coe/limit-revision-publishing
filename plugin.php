@@ -36,3 +36,34 @@ if ( ! class_exists( 'LRP_Options_Controller' ) ) {
 if ( class_exists( 'LRP_Controller' ) ) {
 	$limit_revision_publishing = new LRP_Controller();
 }
+
+function lrp_debug( $allcaps, $cap, $args ) {
+	// Bail if we're not restoring a revision.
+	if (
+		! array_key_exists( 'revision', $_REQUEST ) || intval( $_REQUEST['revision'] ) < 1 ||
+		! array_key_exists( 'action', $_REQUEST ) || $_REQUEST['action'] !== 'restore' ||
+		$args[0] !== 'edit_post'
+	) {
+		return $allcaps;
+	}
+
+	// Bail if the current user is allowed to publish posts.
+	global $wp_post_types;
+	$post_id = $args[2];
+	$post_type = get_post_type( $post_id );
+	if ( current_user_can( $wp_post_types[$post_type]->cap->publish_posts ) ) {
+		return $allcaps;
+	}
+
+	// The current user is trying to restore a post revision, but does not have
+	// the publish_{post_type} capability. Mark their 'edit_post' capability as
+	// false for the post they are trying to restore a revision revision of
+	// (because /wp-admin/revision.php:37 checks the edit_post capability to
+	// determine if the user has the rights to restore a post revision).
+	foreach ( $cap as $required_capability ) {
+		$allcaps[$required_capability] = false;
+	}
+
+	return $allcaps;
+}
+add_filter( 'user_has_cap', 'lrp_debug', 10, 3 );
