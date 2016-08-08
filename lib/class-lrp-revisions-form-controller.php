@@ -12,6 +12,11 @@ class LRP_Revisions_Form_Controller {
 			array( $this, 'user_has_cap__unprivileged_users_cannot_restore_revisions' ),
 			10, 3
 		);
+
+		add_action( 'admin_enqueue_scripts',
+			array( $this, 'admin_enqueue_scripts__modify_tmpl_revisions_meta' ),
+			10, 1
+		);
 	}
 
 
@@ -56,6 +61,34 @@ class LRP_Revisions_Form_Controller {
 		}
 
 		return $allcaps;
+	}
+
+
+	/**
+	 * Add script to modify the revisions browser to prevent users without publish
+	 * capabilities from restoring a revision.
+	 *
+	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/admin_enqueue_scripts
+	 *
+	 * @param  string $hook_suffix The current admin page.
+	 */
+	function admin_enqueue_scripts__modify_tmpl_revisions_meta( $hook_suffix ) {
+		global $post, $wp_post_types;
+
+		// If we're viewing the revision browser and the current user doesn't have the
+		// publish_{post_type} capability, load the javascript that disables the
+		// "Restore This Revision" button.
+		if (
+			$hook_suffix === 'revision.php' &&
+			! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts )
+		) {
+			wp_enqueue_script(
+				'lrp-modify-tmpl-revisions-meta',
+				plugins_url( '/js/modify-tmpl-revisions-meta.js', dirname( __FILE__ ) ),
+				array( 'jquery' ),
+				'20160808'
+			);
+		}
 	}
 
 
