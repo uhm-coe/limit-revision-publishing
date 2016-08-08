@@ -34,6 +34,9 @@ class LRP_Controller {
 
 		// Add modifications to Edit Post form for unprivileged users.
 		$controller = new LRP_Edit_Form_Controller();
+
+		// Add modifications to Revisions Browser for unprivileged users.
+		$controller = new LRP_Revisions_Form_Controller();
 	}
 
 
