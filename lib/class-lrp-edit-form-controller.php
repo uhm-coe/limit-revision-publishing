@@ -97,8 +97,8 @@ class LRP_Edit_Form_Controller {
 	function edit_form_top__unprivileged_users_see_pending_revision( $post_object ) {
 		global $post, $wp_post_types;
 
-		// If a user with publish_{post_type} capability is editing a page and there
-		// is a pending revision, load the contents of that revision to edit.
+		// If a user without publish_{post_type} capability is editing a page and
+		// there is a pending revision, load the contents of that revision to edit.
 		if (
 			! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts ) &&
 			$pending_revision_id = intval( get_post_meta( $post->ID, 'lrp_pending_revision', true ) )
@@ -124,10 +124,10 @@ class LRP_Edit_Form_Controller {
 	 * @return string $value
 	 */
 	function acf_load_value__unprivileged_users_see_pending_revision( $value, $post_id, $field ) {
-		global $wp_post_types;
+		global $post, $wp_post_types;
 
-		// If a user with publish_{post_type} capability is editing a page and there
-		// is a pending revision, load the contents of that revision to edit.
+		// If a user without publish_{post_type} capability is editing a page and
+		// there is a pending revision, load the contents of that revision to edit.
 		if (
 			! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts ) &&
 			$pending_revision_id = intval( get_post_meta( $post_id, 'lrp_pending_revision', true ) )
