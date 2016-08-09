@@ -81,7 +81,7 @@ class LRP_Edit_Form_Controller {
 			current_user_can( $wp_post_types[$screen->post_type]->cap->publish_posts ) &&
 			$pending_revision_id = intval( get_post_meta( $post->ID, 'lrp_pending_revision', true ) )
 		) {
-			?><div class="notice notice-warning"><p><span class="dashicons dashicons-warning" style="color: #ffb900; vertical-align: sub;"></span> <?php _e( 'A revision is pending. Please approve or deny the revision before making further changes.', 'limit-revision-publishing'); ?> <a href="<?php echo admin_url( 'revision.php?revision=' . $pending_revision_id ); ?>" class="button">View changes</a></p></div><?php
+			?><div class="notice notice-warning"><p><span class="dashicons dashicons-warning" style="color: #ffb900; vertical-align: sub;"></span> <?php _e( 'You are editing a pending revision. Please publish or discard it before making further changes.', 'limit-revision-publishing'); ?> <a href="<?php echo admin_url( 'revision.php?revision=' . $pending_revision_id ); ?>" class="button"><?php _e( 'Compare versions', 'limit-revision-publishing' ); ?></a></p></div><?php
 		}
 	}
 
