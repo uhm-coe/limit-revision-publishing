@@ -27,12 +27,18 @@ class LRP_Edit_Form_Controller {
 			array( $this, 'acf_load_value__users_see_pending_revision' ),
 			10, 3
 		);
+
+		add_action( 'wp_ajax_lrp_discard_revision',
+			array( $this, 'wp_ajax__lrp_discard_revision' ),
+			10, 1
+		);
 	}
 
 
 	/**
 	 * Add script to modify the publish metabox to allow users without publish
-	 * capabilities to submit a revision for approval.
+	 * capabilities to submit a revision for approval, and privileged users the
+	 * ability to Publish or Discard pending revisions.
 	 *
 	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/admin_enqueue_scripts
 	 *
@@ -41,27 +47,57 @@ class LRP_Edit_Form_Controller {
 	function admin_enqueue_scripts__modify_publish_metabox( $hook_suffix ) {
 		global $post, $wp_post_types;
 
-		// If we're editing a post and the current user doesn't have the
-		// publish_{post_type} capability, load the javascript that modifies the
-		// publish metabox.
-		if (
-			$hook_suffix === 'post.php' &&
-			! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts )
-		) {
-			wp_enqueue_script(
-				'lrp-modify-publish-metabox',
-				plugins_url( '/js/modify-publish-metabox.js', dirname( __FILE__ ) ),
-				array( 'jquery' ),
-				'20160714'
-			);
-			wp_localize_script(
-				'lrp-modify-publish-metabox',
-				'lrp_translations',
-				array(
-					'update' => __( 'Update', 'limit-revision-publishing' ),
-					'submit_for_review' => __( 'Submit for Review', 'limit-revision-publishing' ),
-				)
-			);
+		// Only add scripts if we're on the Edit Post screen.
+		if ( $hook_suffix === 'post.php' ) {
+
+			if ( ! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts ) ) {
+				// If the current user doesn't have the publish_{post_type} capability,
+				// load the javascript that modifies the Publish button in the metabox.
+				wp_enqueue_script(
+					'lrp-modify-publish-metabox-unprivileged',
+					plugins_url( '/js/modify-publish-metabox-unprivileged.js', dirname( __FILE__ ) ),
+					array( 'jquery' ),
+					'20160714'
+				);
+				wp_localize_script(
+					'lrp-modify-publish-metabox-unprivileged',
+					'lrp_translations',
+					array(
+						'update' => __( 'Update', 'limit-revision-publishing' ),
+						'submit_for_review' => __( 'Submit for Review', 'limit-revision-publishing' ),
+					)
+				);
+
+			} else if ( $pending_revision_id = intval( get_post_meta( $post->ID, 'lrp_pending_revision', true ) ) ) {
+				// If the current user has the publish_{post_type} capability and the
+				// current post has a pending revision, load the javascript that shows
+				// the Publish Revision and Discard buttons.
+				wp_enqueue_script(
+					'lrp-modify-publish-metabox-privileged',
+					plugins_url( '/js/modify-publish-metabox-privileged.js', dirname( __FILE__ ) ),
+					array( 'jquery' ),
+					'20160714'
+				);
+				wp_localize_script(
+					'lrp-modify-publish-metabox-privileged',
+					'lrp_data',
+					array(
+						'ajaxurl' => admin_url( 'admin-ajax.php' ),
+						'nonce' => wp_create_nonce( 'lrp_nonce' ),
+						'post_id' => $post->ID,
+						'pending_revision_id' => $pending_revision_id,
+					)
+				);
+				wp_localize_script(
+					'lrp-modify-publish-metabox-privileged',
+					'lrp_translations',
+					array(
+						'publish_revision' => __( 'Publish Revision', 'limit-revision-publishing' ),
+						'discard_revision' => __( 'Discard', 'limit-revision-publishing' ),
+					)
+				);
+			}
+
 		}
 	}
 
@@ -126,6 +162,51 @@ class LRP_Edit_Form_Controller {
 		}
 
 		return $value;
+	}
+
+
+	/**
+	 * Ajax handler fired when user clicks "Discard Revision" in the Publish
+	 * metabox on the Edit Post screen.
+	 *
+	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/wp_ajax_(action)
+	 */
+	function wp_ajax__lrp_discard_revision() {
+		global $wp_post_types;
+
+		// Nonce check.
+		if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'lrp_nonce' ) ) {
+			die( '' );
+		}
+
+		// Fail if invalid post ID provided for the revision we're trying to discard.
+		$post_id = array_key_exists( 'post_id', $_REQUEST ) ? intval( $_REQUEST['post_id'] ) : 0;
+		if ( $post_id < 1 ) {
+			die( '' );
+		}
+
+		// Fail if current user doesn't have permission to publish the post.
+		$post_type = get_post_type( $post_id );
+		if ( ! current_user_can( $wp_post_types[$post_type]->cap->publish_posts ) ) {
+			die( '' );
+		}
+
+		$success = delete_post_meta( $post_id, 'lrp_pending_revision' );
+
+		if ( $success ) {
+			$message = __( 'Revision discarded.', 'limit-revision-publishing' );
+		} else {
+			$message = __( 'Failed to delete the pending revision flag.', 'limit-revision-publishing' );
+		}
+
+		// Respond to ajax call.
+		$response = array(
+			'success' => $success,
+			'message' => $message,
+		);
+		header( 'Content-Type: application/json' );
+		echo json_encode( $response );
+		exit;
 	}
 
 

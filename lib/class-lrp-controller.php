@@ -67,66 +67,79 @@ class LRP_Controller {
 	function save_post__revert_if_unprivileged( $post_id, $post, $update ) {
 		global $wp_post_types;
 
-		// Prevent this save (revert to previous revision) if we haven't already
-		// reverted, this post is published, it's not an autosave, and the current
-		// user doesn't have the publish_{post_type} capability.
+		// If someone is updating an already published post, check their
+		// capabilities. If they don't have the publish_{post_type} capability,
+		// prevent the save and flag the revision as pending. If they do have the
+		// publish_{post_type} capability, clear any existing pending revision flag.
 		if (
 			! $this->is_reverting &&
 			$post->post_status === 'publish' &&
-			! ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) &&
-			! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts )
+			! ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 		) {
-			// Flag that we're reverting (save_post hook will get called again below
-			// in wp_restore_post_revision(), so we don't want this to keep firing).
-			$this->is_reverting = true;
 
-			// Get recent revisions (the latest revision is this one, so we want the
-			// one right before so we can restore it).
-			$recent_revisions = wp_get_post_revisions( $post_id, array(
-				'posts_per_page' => 2,
-				'cache_results' => false,
-			) );
-			$current_revision = array_shift( $recent_revisions );
-			$previous_revision = array_shift( $recent_revisions );
+			if ( current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts ) ) {
+				// Clear any pending revision flag if this post is published, it's not an
+				// autosave, and the current user has the publish_{post_type} capability.
+				delete_post_meta( $post_id, 'lrp_pending_revision' );
 
-			// Revert to previous revision.
-			wp_restore_post_revision( $previous_revision );
+			} else {
+				// Prevent this save (revert to previous revision) if the current user
+				// doesn't have the publish_{post_type} capability.
 
-			// Add postmeta flag indicating this post has a revision pending.
-			update_post_meta( $post_id, 'lrp_pending_revision', $current_revision->ID );
+				// Flag that we're reverting (save_post hook will get called again below
+				// in wp_restore_post_revision(), so we don't want this to keep firing).
+				$this->is_reverting = true;
 
-			// Get reviewers to send notifications to.
-			$reviewers = array();
-			$users_to_notify = $this->options_controller->get_option( 'users_to_notify' );
-			foreach ( $users_to_notify as $user_id ) {
-				$reviewers[$user_id] = get_user_by( $user_id );
+				// Get recent revisions (the latest revision is this one, so we want the
+				// one right before so we can restore it).
+				$recent_revisions = wp_get_post_revisions( $post_id, array(
+					'posts_per_page' => 2,
+					'cache_results' => false,
+				) );
+				$current_revision = array_shift( $recent_revisions );
+				$previous_revision = array_shift( $recent_revisions );
+
+				// Revert to previous revision.
+				wp_restore_post_revision( $previous_revision );
+
+				// Add postmeta flag indicating this post has a revision pending.
+				update_post_meta( $post_id, 'lrp_pending_revision', $current_revision->ID );
+
+				// Get reviewers to send notifications to.
+				$reviewers = array();
+				$users_to_notify = $this->options_controller->get_option( 'users_to_notify' );
+				foreach ( $users_to_notify as $user_id ) {
+					$reviewers[$user_id] = get_user_by( $user_id );
+				}
+				$users_in_roles = get_users( array(
+					'role__in' => $this->options_controller->get_option( 'roles_to_notify' ),
+				));
+				foreach ( $users_in_roles as $user ) {
+					$reviewers[$user->ID] = $user;
+				}
+
+				// Send notification email to reviewers.
+				$editor = wp_get_current_user();
+				$email_subject = sprintf(
+					/* translators: 1: Email of editor 2: Title of post edited */
+					__( 'Pending revision by %1$s on %2$s', 'limit-revision-publishing' ),
+					$editor->user_email,
+					$previous_revision->post_title
+				);
+				$email_body = sprintf(
+					/* translators: 1: Revision URL 2: Title of post edited 3: Name of editor 4: Email of editor */
+					__( "A new revision has been submitted for review. Please approve or deny it here:\n%1\$s\n\nTitle: %2\$s\nRevision submitted by: %3\$s <%4\$s>", 'limit-revision-publishing' ),
+					admin_url( 'revision.php?revision=' . $current_revision->ID ),
+					$previous_revision->post_title,
+					$editor->display_name,
+					$editor->user_email
+				);
+				foreach ( $reviewers as $user_id => $reviewer ) {
+					wp_mail( $reviewer->user_email, $email_subject, $email_body );
+				}
+
 			}
-			$users_in_roles = get_users( array(
-				'role__in' => $this->options_controller->get_option( 'roles_to_notify' ),
-			));
-			foreach ( $users_in_roles as $user ) {
-				$reviewers[$user->ID] = $user;
-			}
 
-			// Send notification email to reviewers.
-			$editor = wp_get_current_user();
-			$email_subject = sprintf(
-				/* translators: 1: Email of editor 2: Title of post edited */
-				__( 'Pending revision by %1$s on %2$s', 'limit-revision-publishing' ),
-				$editor->user_email,
-				$previous_revision->post_title
-			);
-			$email_body = sprintf(
-				/* translators: 1: Revision URL 2: Title of post edited 3: Name of editor 4: Email of editor */
-				__( "A new revision has been submitted for review. Please approve or deny it here:\n%1\$s\n\nTitle: %2\$s\nRevision submitted by: %3\$s <%4\$s>", 'limit-revision-publishing' ),
-				admin_url( 'revision.php?revision=' . $current_revision->ID ),
-				$previous_revision->post_title,
-				$editor->display_name,
-				$editor->user_email
-			);
-			foreach ( $reviewers as $user_id => $reviewer ) {
-				wp_mail( $reviewer->user_email, $email_subject, $email_body );
-			}
 		}
 	}
 

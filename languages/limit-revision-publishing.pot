@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Limit Revision Publishing\n"
-"POT-Creation-Date: 2016-08-09 09:53-1000\n"
+"POT-Creation-Date: 2016-08-09 13:42-1000\n"
 "PO-Revision-Date: 2016-08-09 09:16-1000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -36,22 +36,38 @@ msgid ""
 "Revision submitted by: %3$s <%4$s>"
 msgstr ""
 
-#: lib/class-lrp-edit-form-controller.php:61
+#: lib/class-lrp-edit-form-controller.php:66
 msgid "Update"
 msgstr ""
 
-#: lib/class-lrp-edit-form-controller.php:62
+#: lib/class-lrp-edit-form-controller.php:67
 msgid "Submit for Review"
 msgstr ""
 
-#: lib/class-lrp-edit-form-controller.php:84
+#: lib/class-lrp-edit-form-controller.php:95
+msgid "Publish Revision"
+msgstr ""
+
+#: lib/class-lrp-edit-form-controller.php:96
+msgid "Discard"
+msgstr ""
+
+#: lib/class-lrp-edit-form-controller.php:120
 msgid ""
 "You are editing a pending revision. Please publish or discard it before "
 "making further changes."
 msgstr ""
 
-#: lib/class-lrp-edit-form-controller.php:84
+#: lib/class-lrp-edit-form-controller.php:120
 msgid "Compare versions"
+msgstr ""
+
+#: lib/class-lrp-edit-form-controller.php:197
+msgid "Revision discarded."
+msgstr ""
+
+#: lib/class-lrp-edit-form-controller.php:199
+msgid "Failed to delete the pending revision flag."
 msgstr ""
 
 #: lib/class-lrp-options-controller.php:70
