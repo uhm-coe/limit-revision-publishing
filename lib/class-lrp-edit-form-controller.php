@@ -19,12 +19,12 @@ class LRP_Edit_Form_Controller {
 		);
 
 		add_action( 'edit_form_top',
-			array( $this, 'edit_form_top__unprivileged_users_see_pending_revision' ),
+			array( $this, 'edit_form_top__users_see_pending_revision' ),
 			10, 1
 		);
 
 		add_filter( 'acf/load_value',
-			array( $this, 'acf_load_value__unprivileged_users_see_pending_revision' ),
+			array( $this, 'acf_load_value__users_see_pending_revision' ),
 			10, 3
 		);
 	}
@@ -87,22 +87,19 @@ class LRP_Edit_Form_Controller {
 
 
 	/**
-	 * Load pending revision contents when unprivileged users try to edit a post
-	 * with pending revisions.
+	 * Load pending revision contents when any user tries to edit a post with a
+	 * pending revision.
 	 *
 	 * Action hook: https://developer.wordpress.org/reference/hooks/edit_form_top/
 	 *
 	 * @param  WP_Post $post_object Post object.
 	 */
-	function edit_form_top__unprivileged_users_see_pending_revision( $post_object ) {
+	function edit_form_top__users_see_pending_revision( $post_object ) {
 		global $post, $wp_post_types;
 
-		// If a user without publish_{post_type} capability is editing a page and
-		// there is a pending revision, load the contents of that revision to edit.
-		if (
-			! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts ) &&
-			$pending_revision_id = intval( get_post_meta( $post->ID, 'lrp_pending_revision', true ) )
-		) {
+		// If a revision is pending, load the contents of that revision to edit.
+		$pending_revision_id = intval( get_post_meta( $post->ID, 'lrp_pending_revision', true ) );
+		if ( $pending_revision_id ) {
 			$pending_revision = wp_get_post_revision( $pending_revision_id );
 			$post->post_title = $pending_revision->post_title;
 			$post->post_content = $pending_revision->post_content;
@@ -113,8 +110,8 @@ class LRP_Edit_Form_Controller {
 
 
 	/**
-	 * Load pending revision contents (for ACF fields) when unprivileged users try
-	 * to edit a post with pending revisions.
+	 * Load pending revision contents (for ACF fields) when any user tries to edit
+	 * a post with a pending revision.
 	 *
 	 * Filter hook: https://www.advancedcustomfields.com/resources/acfload_value/
 	 *
@@ -123,15 +120,12 @@ class LRP_Edit_Form_Controller {
 	 * @param  array $field The field array.
 	 * @return string $value
 	 */
-	function acf_load_value__unprivileged_users_see_pending_revision( $value, $post_id, $field ) {
+	function acf_load_value__users_see_pending_revision( $value, $post_id, $field ) {
 		global $post, $wp_post_types;
 
-		// If a user without publish_{post_type} capability is editing a page and
-		// there is a pending revision, load the contents of that revision to edit.
-		if (
-			! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts ) &&
-			$pending_revision_id = intval( get_post_meta( $post_id, 'lrp_pending_revision', true ) )
-		) {
+		// If a revision is pending, load the contents of that revision to edit.
+		$pending_revision_id = intval( get_post_meta( $post_id, 'lrp_pending_revision', true ) );
+		if ( $pending_revision_id ) {
 			$value = get_field( $field['key'], $pending_revision_id );
 		}
 
