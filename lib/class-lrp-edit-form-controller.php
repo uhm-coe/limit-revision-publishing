@@ -92,11 +92,9 @@ class LRP_Edit_Form_Controller {
 	 *
 	 * Action hook: https://developer.wordpress.org/reference/hooks/edit_form_top/
 	 *
-	 * @param  WP_Post $post_object Post object.
+	 * @param  WP_Post $post Post object.
 	 */
-	function edit_form_top__users_see_pending_revision( $post_object ) {
-		global $post, $wp_post_types;
-
+	function edit_form_top__users_see_pending_revision( $post ) {
 		// If a revision is pending, load the contents of that revision to edit.
 		$pending_revision_id = intval( get_post_meta( $post->ID, 'lrp_pending_revision', true ) );
 		if ( $pending_revision_id ) {
@@ -121,8 +119,6 @@ class LRP_Edit_Form_Controller {
 	 * @return string $value
 	 */
 	function acf_load_value__users_see_pending_revision( $value, $post_id, $field ) {
-		global $post, $wp_post_types;
-
 		// If a revision is pending, load the contents of that revision to edit.
 		$pending_revision_id = intval( get_post_meta( $post_id, 'lrp_pending_revision', true ) );
 		if ( $pending_revision_id ) {
