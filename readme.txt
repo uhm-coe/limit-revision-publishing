@@ -25,6 +25,9 @@ Limit Revision Publishing restricts edits made by users without the publish_{pos
 
 == Changelog ==
 
+= 1.0.0 =
+* First official release.
+
 = 0.1.0 =
 * Development version.
 
