@@ -121,13 +121,13 @@ class LRP_Controller {
 				// Send notification email to reviewers.
 				$editor = wp_get_current_user();
 
-				$email_subject =
+				$email_subject = $this->options_controller->get_option( 'notification_email_subject' );
 				$email_subject = str_replace( '[editor_name]', $editor->display_name, $email_subject );
 				$email_subject = str_replace( '[editor_email]', $editor->user_email, $email_subject );
 				$email_subject = str_replace( '[revision_title]', $previous_revision->post_title, $email_subject );
 				$email_subject = str_replace( '[revision_url]', admin_url( 'revision.php?revision=' . $current_revision->ID ), $email_subject );
 
-				$email_body =
+				$email_body = $this->options_controller->get_option( 'notification_email_body' );
 				$email_body = str_replace( '[editor_name]', $editor->display_name, $email_body );
 				$email_body = str_replace( '[editor_email]', $editor->user_email, $email_body );
 				$email_body = str_replace( '[revision_title]', $previous_revision->post_title, $email_body );
