@@ -14,6 +14,11 @@ class LRP_Options_Controller {
 	 */
 	function __construct() {
 		add_action( 'admin_enqueue_scripts',
+			array( $this, 'admin_enqueue_scripts__add_options_styles' ),
+			10, 1
+		);
+
+		add_action( 'admin_enqueue_scripts',
 			array( $this, 'admin_enqueue_scripts__add_select2_for_plugin_options' ),
 			10, 1
 		);
@@ -43,6 +48,26 @@ class LRP_Options_Controller {
 		}
 
 		return $option_value;
+	}
+
+
+	/**
+	 * Add custom styles for options page.
+	 *
+	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/admin_enqueue_scripts
+	 *
+	 * @param  string $hook_suffix The current admin page.
+	 */
+	function admin_enqueue_scripts__add_options_styles( $hook_suffix ) {
+		// Only load script on this plugin's options page.
+		if ( $hook_suffix === "settings_page_{$this->options_page_slug}" ) {
+			wp_enqueue_style(
+				'lrp-options-styles',
+				plugins_url( '/css/styles-lrp-options.css', dirname( __FILE__ ) ),
+				array(),
+				'20160816'
+			);
+		}
 	}
 
 
