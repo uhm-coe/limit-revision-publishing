@@ -206,7 +206,7 @@ class LRP_Options_Controller {
 			strlen( $lrp_settings['notification_email_subject'] ) < 1
 		) {
 			$lrp_settings['notification_email_subject'] = sprintf(
-				/* translators: 1: Shortcode for editor email 2: Shortcode for revision title */
+				/* TRANSLATORS: 1: Shortcode for editor email 2: Shortcode for revision title */
 				__( 'Pending revision by %1$s on %2$s', 'limit-revision-publishing' ),
 				'[editor_email]',
 				'[revision_title]'
@@ -218,7 +218,7 @@ class LRP_Options_Controller {
 			strlen( $lrp_settings['notification_email_body'] ) < 1
 		) {
 			$lrp_settings['notification_email_body'] = sprintf(
-				/* translators: 1: Shortcode for revision URL 2: Shortcode for revision title 3: Shortcode for editor name 4: Shortcode for editor email */
+				/* TRANSLATORS: 1: Shortcode for revision URL 2: Shortcode for revision title 3: Shortcode for editor name 4: Shortcode for editor email */
 				__( "A new revision has been submitted for review. Please approve or deny it here:\n%1\$s\n\nTitle: %2\$s\nRevision submitted by: %3\$s <%4\$s>", 'limit-revision-publishing' ),
 				'[revision_url]',
 				'[revision_title]',
@@ -291,7 +291,7 @@ class LRP_Options_Controller {
 		?>
 		<input type="text" id="lrp_settings_<?php echo $option_name; ?>" name="lrp_settings[<?php echo $option_name; ?>]" value="<?php echo $option; ?>" style="width:100%;" /><br />
 		<small><?php printf(
-			/* translators: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL */
+			/* TRANSLATORS: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL */
 			__( 'You can use %1$s, %2$s, %3$s, and %4$s shortcodes.', 'limit-revision-publishing' ),
 			'<b>[editor_name]</b>',
 			'<b>[editor_email]</b>',
@@ -319,7 +319,7 @@ class LRP_Options_Controller {
 		);
 		?>
 		<small><?php printf(
-			/* translators: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL */
+			/* TRANSLATORS: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL */
 			__( 'You can use %1$s, %2$s, %3$s, and %4$s shortcodes.', 'limit-revision-publishing' ),
 			'<b>[editor_name]</b>',
 			'<b>[editor_email]</b>',
