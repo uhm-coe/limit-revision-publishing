@@ -163,6 +163,22 @@ class LRP_Options_Controller {
 			$this->options_page_slug, // Options page slug on which to show this field
 			'section_notification_settings' // Section slug on which to show this field
 		);
+
+		add_settings_field(
+			'notification_email_subject', // Field ID
+			__( 'Email subject', 'limit-revision-publishing' ), // Field title
+			array( $this, 'callback__render_field_notification_email_subject' ), // Renderer callback
+			$this->options_page_slug, // Options page slug on which to show this field
+			'section_notification_settings' // Section slug on which to show this field
+		);
+
+		add_settings_field(
+			'notification_email_body', // Field ID
+			__( 'Email body', 'limit-revision-publishing' ), // Field title
+			array( $this, 'callback__render_field_notification_email_body' ), // Renderer callback
+			$this->options_page_slug, // Options page slug on which to show this field
+			'section_notification_settings' // Section slug on which to show this field
+		);
 	}
 
 
@@ -185,6 +201,32 @@ class LRP_Options_Controller {
 			$lrp_settings['roles_to_notify'] = array();
 		}
 
+		if (
+			! array_key_exists( 'notification_email_subject', $lrp_settings ) ||
+			strlen( $lrp_settings['notification_email_subject'] ) < 1
+		) {
+			$lrp_settings['notification_email_subject'] = sprintf(
+				/* translators: 1: Shortcode for editor email 2: Shortcode for revision title */
+				__( 'Pending revision by %1$s on %2$s', 'limit-revision-publishing' ),
+				'[editor_email]',
+				'[revision_title]'
+			);
+		}
+
+		if (
+			! array_key_exists( 'notification_email_body', $lrp_settings ) ||
+			strlen( $lrp_settings['notification_email_body'] ) < 1
+		) {
+			$lrp_settings['notification_email_body'] = sprintf(
+				/* translators: 1: Shortcode for revision URL 2: Shortcode for revision title 3: Shortcode for editor name 4: Shortcode for editor email */
+				__( "A new revision has been submitted for review. Please approve or deny it here:\n%1\$s\n\nTitle: %2\$s\nRevision submitted by: %3\$s <%4\$s>", 'limit-revision-publishing' ),
+				'[revision_url]',
+				'[revision_title]',
+				'[editor_name]',
+				'[editor_email]'
+			);
+		}
+
 		return $lrp_settings;
 	}
 
@@ -204,14 +246,16 @@ class LRP_Options_Controller {
 
 
 	function callback__render_section_notification_settings() {
-		?><p><?php _e( "When a new revision is submitted for review, send a notification email to the following people.", 'limit-revision-publishing' ); ?></p><?php
+		?><p><?php _e( "Configure the notification email sent when a new revision is submitted for review.", 'limit-revision-publishing' ); ?></p><?php
 	}
 
 
 	function callback__render_field_users_to_notify() {
-		$option = $this->get_option( 'users_to_notify' );
-		$users = get_users( array() ); ?>
-		<select id="lrp_settings_users_to_notify" name="lrp_settings[users_to_notify][]" multiple="multiple" style="width: 100%;">
+		$option_name = 'users_to_notify';
+		$option = $this->get_option( $option_name );
+		$users = get_users( array() );
+		?>
+		<select id="lrp_settings_<?php echo $option_name; ?>" name="lrp_settings[<?php echo $option_name; ?>][]" multiple="multiple" style="width: 100%;">
 			<?php	foreach ( (array)$users as $user ) :
 				$selected = in_array( $user->ID, $option ) ? ' selected="selected"' : ''; ?>
 				<option value="<?php echo $user->ID; ?>"<?php echo $selected; ?>>
@@ -224,9 +268,11 @@ class LRP_Options_Controller {
 
 
 	function callback__render_field_roles_to_notify() {
-		$option = $this->get_option( 'roles_to_notify' );
-		$roles = get_editable_roles(); ?>
-		<select id="lrp_settings_roles_to_notify" name="lrp_settings[roles_to_notify][]" multiple="multiple" style="width: 100%;">
+		$option_name = 'roles_to_notify';
+		$option = $this->get_option( $option_name );
+		$roles = get_editable_roles();
+		?>
+		<select id="lrp_settings_<?php echo $option_name; ?>" name="lrp_settings[<?php echo $option_name; ?>][]" multiple="multiple" style="width: 100%;">
 			<?php foreach ( $roles as $name => $role ) :
 				$selected = in_array( $name, $option ) ? ' selected="selected"' : '';	?>
 				<option value="<?php echo $name; ?>"<?php echo $selected; ?>>
@@ -234,6 +280,51 @@ class LRP_Options_Controller {
 				</option>
 			<?php endforeach; ?>
 		</select>
+		<?php
+	}
+
+
+	function callback__render_field_notification_email_subject( $args = '' ) {
+		$option_name = 'notification_email_subject';
+		$option = $this->get_option( $option_name );
+		?>
+		<input type="text" id="lrp_settings_<?php echo $option_name; ?>" name="lrp_settings[<?php echo $option_name; ?>]" value="<?php echo $option; ?>" style="width:100%;" /><br />
+		<small><?php printf(
+			/* translators: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL */
+			__( 'You can use %1$s, %2$s, %3$s, and %4$s shortcodes.', 'limit-revision-publishing' ),
+			'<b>[editor_name]</b>',
+			'<b>[editor_email]</b>',
+			'<b>[revision_title]</b>',
+			'<b>[revision_url]</b>'
+		); ?></small>
+		<?php
+	}
+
+
+	function callback__render_field_notification_email_body( $args = '' ) {
+		$option_name = 'notification_email_body';
+		$option = $this->get_option( $option_name );
+		wp_editor(
+			wpautop( $option ),
+			"lrp_settings_{$option_name}",
+			array(
+				'media_buttons' => false,
+				'textarea_name' => "lrp_settings[$option_name]",
+				'textarea_rows' => 9,
+				'tinymce' => true,
+				'teeny' => true,
+				'quicktags' => false,
+			)
+		);
+		?>
+		<small><?php printf(
+			/* translators: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL */
+			__( 'You can use %1$s, %2$s, %3$s, and %4$s shortcodes.', 'limit-revision-publishing' ),
+			'<b>[editor_name]</b>',
+			'<b>[editor_email]</b>',
+			'<b>[revision_title]</b>',
+			'<b>[revision_url]</b>'
+		); ?></small>
 		<?php
 	}
 

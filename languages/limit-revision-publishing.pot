@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Limit Revision Publishing\n"
-"POT-Creation-Date: 2016-08-09 13:42-1000\n"
-"PO-Revision-Date: 2016-08-09 09:16-1000\n"
+"POT-Creation-Date: 2016-08-16 11:44-1000\n"
+"PO-Revision-Date: 2016-08-16 11:43-1000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -19,22 +19,6 @@ msgstr ""
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
-
-#: lib/class-lrp-controller.php:115
-#, php-format
-msgid "Pending revision by %1$s on %2$s"
-msgstr ""
-
-#: lib/class-lrp-controller.php:121
-#, php-format
-msgid ""
-"A new revision has been submitted for review. Please approve or deny it "
-"here:\n"
-"%1$s\n"
-"\n"
-"Title: %2$s\n"
-"Revision submitted by: %3$s <%4$s>"
-msgstr ""
 
 #: lib/class-lrp-edit-form-controller.php:66
 msgid "Update"
@@ -70,37 +54,67 @@ msgstr ""
 msgid "Failed to delete the pending revision flag."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:70
+#: lib/class-lrp-options-controller.php:95
 msgid "Select users to notify"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:71
+#: lib/class-lrp-options-controller.php:96
 msgid "Select roles to notify"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-#: lib/class-lrp-options-controller.php:98
-#: lib/class-lrp-options-controller.php:99
-#: lib/class-lrp-options-controller.php:169
+#: lib/class-lrp-options-controller.php:123
+#: lib/class-lrp-options-controller.php:124
+#: lib/class-lrp-options-controller.php:236
 msgid "Limit Revision Publishing"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:121
+#: lib/class-lrp-options-controller.php:146
 msgid "Notification Settings"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:128
+#: lib/class-lrp-options-controller.php:153
 msgid "Users to notify"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:136
+#: lib/class-lrp-options-controller.php:161
 msgid "Roles to notify"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:182
+#: lib/class-lrp-options-controller.php:169
+msgid "Email subject"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:177
+msgid "Email body"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:210
+#, php-format
+msgid "Pending revision by %1$s on %2$s"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:222
+#, php-format
 msgid ""
-"When a new revision is submitted for review, send a notification email to "
-"the following people."
+"A new revision has been submitted for review. Please approve or deny it "
+"here:\n"
+"%1$s\n"
+"\n"
+"Title: %2$s\n"
+"Revision submitted by: %3$s <%4$s>"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:249
+msgid ""
+"Configure the notification email sent when a new revision is submitted for "
+"review."
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:294
+#: lib/class-lrp-options-controller.php:322
+#, php-format
+msgid "You can use %1$s, %2$s, %3$s, and %4$s shortcodes."
 msgstr ""
 
 #: lib/class-lrp-sortable-column-controller.php:53

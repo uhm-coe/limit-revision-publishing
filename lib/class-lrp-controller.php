@@ -120,20 +120,19 @@ class LRP_Controller {
 
 				// Send notification email to reviewers.
 				$editor = wp_get_current_user();
-				$email_subject = sprintf(
-					/* translators: 1: Email of editor 2: Title of post edited */
-					__( 'Pending revision by %1$s on %2$s', 'limit-revision-publishing' ),
-					$editor->user_email,
-					$previous_revision->post_title
-				);
-				$email_body = sprintf(
-					/* translators: 1: Revision URL 2: Title of post edited 3: Name of editor 4: Email of editor */
-					__( "A new revision has been submitted for review. Please approve or deny it here:\n%1\$s\n\nTitle: %2\$s\nRevision submitted by: %3\$s <%4\$s>", 'limit-revision-publishing' ),
-					admin_url( 'revision.php?revision=' . $current_revision->ID ),
-					$previous_revision->post_title,
-					$editor->display_name,
-					$editor->user_email
-				);
+
+				$email_subject =
+				$email_subject = str_replace( '[editor_name]', $editor->display_name, $email_subject );
+				$email_subject = str_replace( '[editor_email]', $editor->user_email, $email_subject );
+				$email_subject = str_replace( '[revision_title]', $previous_revision->post_title, $email_subject );
+				$email_subject = str_replace( '[revision_url]', admin_url( 'revision.php?revision=' . $current_revision->ID ), $email_subject );
+
+				$email_body =
+				$email_body = str_replace( '[editor_name]', $editor->display_name, $email_body );
+				$email_body = str_replace( '[editor_email]', $editor->user_email, $email_body );
+				$email_body = str_replace( '[revision_title]', $previous_revision->post_title, $email_body );
+				$email_body = str_replace( '[revision_url]', admin_url( 'revision.php?revision=' . $current_revision->ID ), $email_body );
+
 				foreach ( $reviewers as $user_id => $reviewer ) {
 					wp_mail( $reviewer->user_email, $email_subject, $email_body );
 				}
