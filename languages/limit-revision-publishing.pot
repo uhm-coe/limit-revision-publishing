@@ -3,8 +3,8 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Limit Revision Publishing\n"
-"POT-Creation-Date: 2016-08-16 11:44-1000\n"
-"PO-Revision-Date: 2016-08-16 11:43-1000\n"
+"POT-Creation-Date: 2016-08-16 11:49-1000\n"
+"PO-Revision-Date: 2016-08-16 11:49-1000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -55,7 +55,7 @@ msgid "Failed to delete the pending revision flag."
 msgstr ""
 
 #: lib/class-lrp-options-controller.php:95
-msgid "Select users to notify"
+msgid "Select specific users to notify"
 msgstr ""
 
 #: lib/class-lrp-options-controller.php:96
@@ -111,8 +111,12 @@ msgid ""
 "review."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:294
-#: lib/class-lrp-options-controller.php:322
+#: lib/class-lrp-options-controller.php:283
+msgid "All users in these roles will receive notification emails."
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:295
+#: lib/class-lrp-options-controller.php:323
 #, php-format
 msgid "You can use %1$s, %2$s, %3$s, and %4$s shortcodes."
 msgstr ""

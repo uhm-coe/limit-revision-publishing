@@ -92,7 +92,7 @@ class LRP_Options_Controller {
 				'lrp-add-select2-to-options',
 				'lrp_translations',
 				array(
-					'select_users_to_notify' => __( 'Select users to notify', 'limit-revision-publishing' ),
+					'select_users_to_notify' => __( 'Select specific users to notify', 'limit-revision-publishing' ),
 					'select_roles_to_notify' => __( 'Select roles to notify', 'limit-revision-publishing' ),
 				)
 			);
@@ -280,6 +280,7 @@ class LRP_Options_Controller {
 				</option>
 			<?php endforeach; ?>
 		</select>
+		<small><?php _e( 'All users in these roles will receive notification emails.', 'limit-revision-publishing' ); ?></small>
 		<?php
 	}
 
