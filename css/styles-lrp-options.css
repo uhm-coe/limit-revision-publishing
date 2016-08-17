@@ -1,9 +1,22 @@
-body.settings_page_limit-revision-publishing .select2 li.select2-selection__choice {
+.select2 li.select2-selection__choice {
 	margin: 6px 5px 0 0;
 	padding: 2px 5px 2px;
 }
 
-body.settings_page_limit-revision-publishing .select2 li {
+.select2 li {
 	margin: 4px 5px 2px 0;
 	padding: 2px 5px 2px;
+}
+
+.dashicons-yes,
+.dashicons-unlock {
+	color: #46b450;
+}
+
+.dashicons-no,
+.dashicons-lock {
+	color: #dc3232;
+}
+.dashicons-unlock.partial {
+	color: #ffb900;
 }

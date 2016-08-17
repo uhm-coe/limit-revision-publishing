@@ -10,5 +10,9 @@
 			placeholder: lrp_translations.select_roles_to_notify
 		});
 
+		$( '#lrp_settings_roles_to_restrict' ).select2({
+			placeholder: lrp_translations.select_roles_to_restrict
+		});
+
 	});
 })( jQuery );

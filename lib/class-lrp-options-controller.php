@@ -94,6 +94,7 @@ class LRP_Options_Controller {
 				array(
 					'select_users_to_notify' => __( 'Select specific users to notify', 'limit-revision-publishing' ),
 					'select_roles_to_notify' => __( 'Select roles to notify', 'limit-revision-publishing' ),
+					'select_roles_to_restrict' => __( 'Select roles to restrict', 'limit-revision-publishing' ),
 				)
 			);
 
@@ -147,7 +148,6 @@ class LRP_Options_Controller {
 			array( $this, 'callback__render_section_notification_settings' ), // Renderer callback
 			$this->options_page_slug // Options page slug on which to show this section
 		);
-
 		add_settings_field(
 			'users_to_notify', // Field ID
 			__( 'Users to notify', 'limit-revision-publishing' ), // Field title
@@ -155,7 +155,6 @@ class LRP_Options_Controller {
 			$this->options_page_slug, // Options page slug on which to show this field
 			'section_notification_settings' // Section slug on which to show this field
 		);
-
 		add_settings_field(
 			'roles_to_notify', // Field ID
 			__( 'Roles to notify', 'limit-revision-publishing' ), // Field title
@@ -163,7 +162,6 @@ class LRP_Options_Controller {
 			$this->options_page_slug, // Options page slug on which to show this field
 			'section_notification_settings' // Section slug on which to show this field
 		);
-
 		add_settings_field(
 			'notification_email_subject', // Field ID
 			__( 'Email subject', 'limit-revision-publishing' ), // Field title
@@ -171,7 +169,6 @@ class LRP_Options_Controller {
 			$this->options_page_slug, // Options page slug on which to show this field
 			'section_notification_settings' // Section slug on which to show this field
 		);
-
 		add_settings_field(
 			'notification_email_body', // Field ID
 			__( 'Email body', 'limit-revision-publishing' ), // Field title
@@ -179,6 +176,21 @@ class LRP_Options_Controller {
 			$this->options_page_slug, // Options page slug on which to show this field
 			'section_notification_settings' // Section slug on which to show this field
 		);
+
+		add_settings_section(
+			'section_role_settings', // Section ID (used in 'id' attribute of html tags)
+			__( 'Role Settings', 'limit-revision-publishing' ), // Section heading
+			array( $this, 'callback__render_section_role_settings' ), // Renderer callback
+			$this->options_page_slug // Options page slug on which to show this section
+		);
+		add_settings_field(
+			'roles_to_restrict', // Field ID
+			__( 'Roles to restrict', 'limit-revision-publishing' ), // Field title
+			array( $this, 'callback__render_field_roles_to_restrict' ), // Renderer callback
+			$this->options_page_slug, // Options page slug on which to show this field
+			'section_role_settings' // Section slug on which to show this field
+		);
+
 	}
 
 
@@ -227,6 +239,13 @@ class LRP_Options_Controller {
 			);
 		}
 
+		if (
+			! array_key_exists( 'roles_to_restrict', $lrp_settings ) ||
+			! is_array( $lrp_settings['roles_to_restrict'] )
+		) {
+			$lrp_settings['roles_to_restrict'] = array();
+		}
+
 		return $lrp_settings;
 	}
 
@@ -273,9 +292,9 @@ class LRP_Options_Controller {
 		$roles = get_editable_roles();
 		?>
 		<select id="lrp_settings_<?php echo $option_name; ?>" name="lrp_settings[<?php echo $option_name; ?>][]" multiple="multiple" style="width: 100%;">
-			<?php foreach ( $roles as $name => $role ) :
-				$selected = in_array( $name, $option ) ? ' selected="selected"' : '';	?>
-				<option value="<?php echo $name; ?>"<?php echo $selected; ?>>
+			<?php foreach ( $roles as $role_id => $role ) :
+				$selected = in_array( $role_id, $option ) ? ' selected="selected"' : '';	?>
+				<option value="<?php echo $role_id; ?>"<?php echo $selected; ?>>
 					<?php echo $role['name']; ?>
 				</option>
 			<?php endforeach; ?>
@@ -326,6 +345,72 @@ class LRP_Options_Controller {
 			'<b>[revision_title]</b>',
 			'<b>[revision_url]</b>'
 		); ?></small>
+		<?php
+	}
+
+
+	function callback__render_section_role_settings() {
+		$post_types = get_post_types(	array( 'show_in_nav_menus' => true ), 'objects' );
+		$roles = get_editable_roles();
+		$restricted_roles = $this->get_option( 'roles_to_restrict' );
+		?>
+		<p><?php _e( "Configure roles that should have restricted publishing.", 'limit-revision-publishing' ); ?></p>
+		<table class="widefat">
+			<thead>
+				<tr>
+					<th>Role</th>
+					<?php foreach ( $post_types as $post_type ) : ?>
+						<th><?php echo $post_type->labels->name; ?></th>
+					<?php endforeach; ?>
+					<th>Restricted</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php $row_number = 0;
+				foreach ( $roles as $role_id => $role ) :
+					$row_number++;
+					$is_restricted = in_array( $role_id, $restricted_roles );
+					$has_some_freedom = false;
+					?>
+					<tr class="<?php echo $row_number % 2 ? 'alternate' : ''; ?>">
+						<td><?php echo $role['name']; ?></td>
+						<?php foreach ( $post_types as $post_type ) :
+							$can_publish = array_key_exists( $post_type->cap->publish_posts, $role['capabilities'] ) && $role['capabilities'][$post_type->cap->publish_posts] == 1;
+							$can_edit_published = array_key_exists( $post_type->cap->edit_published_posts, $role['capabilities'] ) && $role['capabilities'][$post_type->cap->edit_published_posts] == 1;
+							$has_some_freedom = $has_some_freedom || ( $can_edit_published && $can_publish );
+							$is_restricted = $is_restricted || ( $can_edit_published && ! $can_publish );
+							?>
+							<td>
+								<span class="dashicons dashicons-<?php echo $can_publish ? 'yes' : 'no'; ?>"></span>
+								Publish <?php echo $post_type->label->name; ?>
+								<br>
+								<span class="dashicons dashicons-<?php echo $can_edit_published ? 'yes' : 'no'; ?>"></span>
+								Edit Published <?php echo $post_type->label->name; ?>
+							</td>
+						<?php endforeach; ?>
+						<td><span class="dashicons dashicons-<?php echo $is_restricted && ! $has_some_freedom ? 'lock' : 'unlock'; ?><?php if ( $is_restricted && $has_some_freedom ) echo ' partial" title="' . __( 'Has publishing capabilities on some post types.', 'limit-revision-publishing' ); ?>"></span></td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+		<?php
+	}
+
+
+	function callback__render_field_roles_to_restrict() {
+		$option_name = 'roles_to_restrict';
+		$option = $this->get_option( $option_name );
+		$roles = get_editable_roles();
+		?>
+		<select id="lrp_settings_<?php echo $option_name; ?>" name="lrp_settings[<?php echo $option_name; ?>][]" multiple="multiple" style="width: 100%;">
+			<?php foreach ( $roles as $role_id => $role ) :
+				$selected = in_array( $role_id, $option ) ? ' selected="selected"' : '';	?>
+				<option value="<?php echo $role_id; ?>"<?php echo $selected; ?>>
+					<?php echo $role['name']; ?>
+				</option>
+			<?php endforeach; ?>
+		</select>
+		<small><?php _e( 'All users in these roles will be restricted from publishing revisions on <strong>all</strong> post types.', 'limit-revision-publishing' ); ?></small>
 		<?php
 	}
 
