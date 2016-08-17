@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Limit Revision Publishing\n"
-"POT-Creation-Date: 2016-08-16 11:55-1000\n"
+"POT-Creation-Date: 2016-08-16 16:13-1000\n"
 "PO-Revision-Date: 2016-08-16 11:49-1000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -62,14 +62,18 @@ msgstr ""
 msgid "Select roles to notify"
 msgstr ""
 
+#: lib/class-lrp-options-controller.php:97
+msgid "Select roles to restrict"
+msgstr ""
+
 #. Plugin Name of the plugin/theme
-#: lib/class-lrp-options-controller.php:123
 #: lib/class-lrp-options-controller.php:124
-#: lib/class-lrp-options-controller.php:236
+#: lib/class-lrp-options-controller.php:125
+#: lib/class-lrp-options-controller.php:255
 msgid "Limit Revision Publishing"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:146
+#: lib/class-lrp-options-controller.php:147
 msgid "Notification Settings"
 msgstr ""
 
@@ -77,26 +81,34 @@ msgstr ""
 msgid "Users to notify"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:161
+#: lib/class-lrp-options-controller.php:160
 msgid "Roles to notify"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:169
+#: lib/class-lrp-options-controller.php:167
 msgid "Email subject"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:177
+#: lib/class-lrp-options-controller.php:174
 msgid "Email body"
 msgstr ""
 
+#: lib/class-lrp-options-controller.php:182
+msgid "Role Settings"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:188
+msgid "Roles to restrict"
+msgstr ""
+
 #. TRANSLATORS: 1: Shortcode for editor email 2: Shortcode for revision title
-#: lib/class-lrp-options-controller.php:210
+#: lib/class-lrp-options-controller.php:222
 #, php-format
 msgid "Pending revision by %1$s on %2$s"
 msgstr ""
 
 #. TRANSLATORS: 1: Shortcode for revision URL 2: Shortcode for revision title 3: Shortcode for editor name 4: Shortcode for editor email
-#: lib/class-lrp-options-controller.php:222
+#: lib/class-lrp-options-controller.php:234
 #, php-format
 msgid ""
 "A new revision has been submitted for review. Please approve or deny it "
@@ -107,21 +119,35 @@ msgid ""
 "Revision submitted by: %3$s <%4$s>"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:249
+#: lib/class-lrp-options-controller.php:268
 msgid ""
 "Configure the notification email sent when a new revision is submitted for "
 "review."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:283
+#: lib/class-lrp-options-controller.php:302
 msgid "All users in these roles will receive notification emails."
 msgstr ""
 
 #. TRANSLATORS: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL
-#: lib/class-lrp-options-controller.php:295
-#: lib/class-lrp-options-controller.php:323
+#: lib/class-lrp-options-controller.php:314
+#: lib/class-lrp-options-controller.php:342
 #, php-format
 msgid "You can use %1$s, %2$s, %3$s, and %4$s shortcodes."
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:357
+msgid "Configure roles that should have restricted publishing."
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:391
+msgid "Has publishing capabilities on some post types."
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:413
+msgid ""
+"All users in these roles will be restricted from publishing revisions on "
+"<strong>all</strong> post types."
 msgstr ""
 
 #: lib/class-lrp-sortable-column-controller.php:53
