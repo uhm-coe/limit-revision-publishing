@@ -1,13 +1,16 @@
 <?php
 
 class LRP_Edit_Form_Controller {
+	private $options_controller;
 
 
 	/**
 	 * Class constructor.
 	 * Register hooks.
 	 */
-	function __construct() {
+	function __construct( $options_controller = null ) {
+		$this->options_controller = $options_controller;
+
 		add_action( 'admin_enqueue_scripts',
 			array( $this, 'admin_enqueue_scripts__modify_publish_metabox' ),
 			10, 1
@@ -45,12 +48,12 @@ class LRP_Edit_Form_Controller {
 	 * @param  string $hook_suffix The current admin page.
 	 */
 	function admin_enqueue_scripts__modify_publish_metabox( $hook_suffix ) {
-		global $post, $wp_post_types;
+		global $post;
 
 		// Only add scripts if we're on the Edit Post screen.
 		if ( $hook_suffix === 'post.php' ) {
 
-			if ( ! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts ) ) {
+			if ( ! $this->options_controller->current_user_can_publish( $post->post_type ) ) {
 				// If the current user doesn't have the publish_{post_type} capability,
 				// load the javascript that modifies the Publish button in the metabox.
 				wp_enqueue_script(
@@ -109,12 +112,12 @@ class LRP_Edit_Form_Controller {
 	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices
 	 */
 	function admin_notices__warn_when_editing_post_with_pending_revision() {
-		global $post, $wp_post_types;
+		global $post;
 		$screen = get_current_screen();
 
 		if (
 			$screen->base === 'post' &&
-			current_user_can( $wp_post_types[$screen->post_type]->cap->publish_posts ) &&
+			$this->options_controller->current_user_can_publish( $screen->post_type ) &&
 			$pending_revision_id = intval( get_post_meta( $post->ID, 'lrp_pending_revision', true ) )
 		) {
 			?><div class="notice notice-warning"><p><span class="dashicons dashicons-warning" style="color: #ffb900; vertical-align: sub;"></span> <?php _e( 'You are editing a pending revision. Please publish or discard it before making further changes.', 'limit-revision-publishing'); ?> <a href="<?php echo admin_url( 'revision.php?revision=' . $pending_revision_id ); ?>" class="button"><?php _e( 'Compare versions', 'limit-revision-publishing' ); ?></a></p></div><?php
@@ -172,8 +175,6 @@ class LRP_Edit_Form_Controller {
 	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/wp_ajax_(action)
 	 */
 	function wp_ajax__lrp_discard_revision() {
-		global $wp_post_types;
-
 		// Nonce check.
 		if ( empty( $_POST['nonce'] ) || ! wp_verify_nonce( $_POST['nonce'], 'lrp_nonce' ) ) {
 			die( '' );
@@ -187,7 +188,7 @@ class LRP_Edit_Form_Controller {
 
 		// Fail if current user doesn't have permission to publish the post.
 		$post_type = get_post_type( $post_id );
-		if ( ! current_user_can( $wp_post_types[$post_type]->cap->publish_posts ) ) {
+		if ( ! $this->options_controller->current_user_can_publish( $post_type ) ) {
 			die( '' );
 		}
 

@@ -33,10 +33,10 @@ class LRP_Controller {
 		$controller = new LRP_Sortable_Column_Controller();
 
 		// Add modifications to Edit Post form for unprivileged users.
-		$controller = new LRP_Edit_Form_Controller();
+		$controller = new LRP_Edit_Form_Controller( $this->options_controller );
 
 		// Add modifications to Revisions Browser for unprivileged users.
-		$controller = new LRP_Revisions_Form_Controller();
+		$controller = new LRP_Revisions_Form_Controller( $this->options_controller );
 	}
 
 
@@ -65,8 +65,6 @@ class LRP_Controller {
 	 * @param bool $update Whether this is an existing post being updated or not.
 	 */
 	function save_post__revert_if_unprivileged( $post_id, $post, $update ) {
-		global $wp_post_types;
-
 		// If someone is updating an already published post, check their
 		// capabilities. If they don't have the publish_{post_type} capability,
 		// prevent the save and flag the revision as pending. If they do have the
@@ -77,7 +75,7 @@ class LRP_Controller {
 			! ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 		) {
 
-			if ( current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts ) ) {
+			if ( $this->options_controller->current_user_can_publish( $post->post_type ) ) {
 				// Clear any pending revision flag if this post is published, it's not an
 				// autosave, and the current user has the publish_{post_type} capability.
 				delete_post_meta( $post_id, 'lrp_pending_revision' );

@@ -1,13 +1,16 @@
 <?php
 
 class LRP_Revisions_Form_Controller {
+	private $options_controller;
 
 
 	/**
 	 * Class constructor.
 	 * Register hooks.
 	 */
-	function __construct() {
+	function __construct( $options_controller = null ) {
+		$this->options_controller = $options_controller;
+
 		add_filter( 'user_has_cap',
 			array( $this, 'user_has_cap__unprivileged_users_cannot_restore_revisions' ),
 			10, 3
@@ -44,10 +47,9 @@ class LRP_Revisions_Form_Controller {
 		}
 
 		// Bail if the current user is allowed to publish posts.
-		global $wp_post_types;
 		$post_id = $args[2];
 		$post_type = get_post_type( $post_id );
-		if ( current_user_can( $wp_post_types[$post_type]->cap->publish_posts ) ) {
+		if ( $this->options_controller->current_user_can_publish( $post_type ) ) {
 			return $allcaps;
 		}
 
@@ -73,14 +75,14 @@ class LRP_Revisions_Form_Controller {
 	 * @param  string $hook_suffix The current admin page.
 	 */
 	function admin_enqueue_scripts__modify_tmpl_revisions_meta( $hook_suffix ) {
-		global $post, $wp_post_types;
+		global $post;
 
 		// If we're viewing the revision browser and the current user doesn't have the
 		// publish_{post_type} capability, load the javascript that disables the
 		// "Restore This Revision" button.
 		if (
 			$hook_suffix === 'revision.php' &&
-			! current_user_can( $wp_post_types[$post->post_type]->cap->publish_posts )
+			! $this->options_controller->current_user_can_publish( $post->post_type )
 		) {
 			wp_enqueue_script(
 				'lrp-modify-tmpl-revisions-meta',

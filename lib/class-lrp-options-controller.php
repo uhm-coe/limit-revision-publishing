@@ -51,6 +51,28 @@ class LRP_Options_Controller {
 	}
 
 
+	function current_user_can_publish( $post_type ) {
+		global $wp_post_types;
+
+		// Fail if an invalid post_type is passed.
+		if ( ! array_key_exists( $post_type, $wp_post_types ) ) {
+			return false;
+		}
+
+		// Get whether the current user is a member of a restricted role.
+		$is_restricted = false;
+		$current_user = wp_get_current_user();
+		$restricted_roles = $this->get_option( 'roles_to_restrict' );
+		foreach ( $restricted_roles as $role_id ) {
+			if ( in_array( $role_id, (array)$current_user->roles ) ) {
+				$is_restricted = true;
+			}
+		}
+
+		return current_user_can( $wp_post_types[$post_type]->cap->publish_posts ) && ! $is_restricted;
+	}
+
+
 	/**
 	 * Add custom styles for options page.
 	 *
