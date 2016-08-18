@@ -18,7 +18,7 @@ class LRP_Controller {
 
 		add_action( 'save_post',
 			array( $this, 'save_post__revert_if_unprivileged' ),
-			1, 3
+			PHP_INT_MAX, 3
 		);
 
 		add_filter( 'acf/update_value',
@@ -148,6 +148,9 @@ class LRP_Controller {
 	 * field values for the newly created revision ID. These values still match
 	 * the previous revision. Use the code below to update the postmeta field
 	 * values attached to the new revision ID with those from the main post ID.
+	 *
+	 * Note: This is unneeded (and unused) as of ACF Pro v5.4.0, when Elliot
+	 * revamped the revision system in ACF. Source: https://www.advancedcustomfields.com/blog/acf-pro-5-4-0-update/
 	 *
 	 * Filter hook: https://www.advancedcustomfields.com/resources/acfupdate_value/
 	 *
