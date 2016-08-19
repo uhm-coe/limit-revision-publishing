@@ -380,11 +380,11 @@ class LRP_Options_Controller {
 		<table class="widefat">
 			<thead>
 				<tr>
-					<th>Role</th>
+					<th><?php _e( 'Role', 'limit-revision-publishing' ); ?></th>
 					<?php foreach ( $post_types as $post_type ) : ?>
 						<th><?php echo $post_type->labels->name; ?></th>
 					<?php endforeach; ?>
-					<th>Restricted</th>
+					<th><?php _e( 'Edits Locked Until Approved', 'limit-revision-publishing' ); ?></th>
 				</tr>
 			</thead>
 			<tbody>
