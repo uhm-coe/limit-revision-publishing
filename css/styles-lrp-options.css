@@ -20,3 +20,9 @@
 .dashicons-unlock.partial {
 	color: #ffb900;
 }
+
+.dashicons-plus,
+.dashicons-minus,
+.dashicons-no-alt {
+	color: #ccc;
+}

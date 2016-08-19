@@ -207,7 +207,7 @@ class LRP_Options_Controller {
 		);
 		add_settings_field(
 			'roles_to_restrict', // Field ID
-			__( 'Roles to restrict', 'limit-revision-publishing' ), // Field title
+			'<span class="dashicons dashicons-lock"></span>' . __( 'Roles to restrict', 'limit-revision-publishing' ), // Field title
 			array( $this, 'callback__render_field_roles_to_restrict' ), // Renderer callback
 			$this->options_page_slug, // Options page slug on which to show this field
 			'section_role_settings' // Section slug on which to show this field
@@ -392,25 +392,47 @@ class LRP_Options_Controller {
 				foreach ( $roles as $role_id => $role ) :
 					$row_number++;
 					$is_restricted = in_array( $role_id, $restricted_roles );
-					$has_some_freedom = false;
+					$is_partially_restricted = false;
+					$can_publish_all = true;
+					$can_publish_none = true;
 					?>
 					<tr class="<?php echo $row_number % 2 ? 'alternate' : ''; ?>">
 						<td><?php echo $role['name']; ?></td>
 						<?php foreach ( $post_types as $post_type ) :
 							$can_publish = array_key_exists( $post_type->cap->publish_posts, $role['capabilities'] ) && $role['capabilities'][$post_type->cap->publish_posts] == 1;
 							$can_edit_published = array_key_exists( $post_type->cap->edit_published_posts, $role['capabilities'] ) && $role['capabilities'][$post_type->cap->edit_published_posts] == 1;
-							$has_some_freedom = $has_some_freedom || ( $can_edit_published && $can_publish );
-							$is_restricted = $is_restricted || ( $can_edit_published && ! $can_publish );
+							$is_partially_restricted |= ( $can_edit_published && ! $can_publish );
+							$can_publish_all &= $can_edit_published && $can_publish;
+							$can_publish_none &= ! ( $can_edit_published && $can_publish );
 							?>
 							<td>
 								<span class="dashicons dashicons-<?php echo $can_publish ? 'yes' : 'no'; ?>"></span>
+								<?php if ( $is_restricted ) : ?><strike><?php endif; ?>
 								Publish <?php echo $post_type->label->name; ?>
+								<?php if ( $is_restricted ) : ?></strike><?php endif; ?>
 								<br>
 								<span class="dashicons dashicons-<?php echo $can_edit_published ? 'yes' : 'no'; ?>"></span>
 								Edit Published <?php echo $post_type->label->name; ?>
 							</td>
 						<?php endforeach; ?>
-						<td><span class="dashicons dashicons-<?php echo $is_restricted && ! $has_some_freedom ? 'lock' : 'unlock'; ?><?php if ( $is_restricted && $has_some_freedom ) echo ' partial" title="' . __( 'Has publishing capabilities on some post types.', 'limit-revision-publishing' ); ?>"></span></td>
+						<td>
+							<?php if ( $is_restricted ) : ?>
+								<span class="dashicons dashicons-lock"></span>
+								<?php _e( 'Edits to all published posts must be approved.', 'limit-revision-publishing' ); ?>
+							<?php elseif ( $is_partially_restricted ) : ?>
+								<span class="dashicons dashicons-unlock partial"></span>
+								<?php _e( 'Edits to some published post types must be approved.', 'limit-revision-publishing' ); ?>
+							<?php elseif ( ! $can_publish_all && ! $can_publish_none ) : ?>
+								<span class="dashicons dashicons-minus"></span>
+								<?php _e( 'Can edit and publish some post types, but not others.', 'limit-revision-publishing' ); ?>
+							<?php elseif ( $can_publish_all ) : ?>
+								<span class="dashicons dashicons-unlock"></span>
+								<?php _e( 'Can publish edits to any post type.', 'limit-revision-publishing' ); ?>
+							<?php elseif ( $can_publish_none ) : ?>
+								<span class="dashicons dashicons-no-alt"></span>
+								<?php _e( 'Cannot edit any published posts.', 'limit-revision-publishing' ); ?>
+							<?php endif; ?>
+						</td>
 					</tr>
 				<?php endforeach; ?>
 			</tbody>
