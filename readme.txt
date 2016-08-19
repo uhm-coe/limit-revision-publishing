@@ -25,6 +25,12 @@ Limit Revision Publishing restricts edits made by users without the publish_{pos
 
 == Changelog ==
 
+= 1.1.0 =
+* Add ability to restrict any role's publishing capability.
+* Add descriptive table of roles to plugin options.
+* Add customizable notification email to plugin options.
+* Fix ACF revision integration (ACF Pro >= 5.4.0).
+
 = 1.0.0 =
 * First official release.
 
