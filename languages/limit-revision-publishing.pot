@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Limit Revision Publishing\n"
-"POT-Creation-Date: 2016-08-16 16:13-1000\n"
+"POT-Creation-Date: 2016-08-18 15:27-1000\n"
 "PO-Revision-Date: 2016-08-16 11:49-1000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -20,95 +20,95 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: lib/class-lrp-edit-form-controller.php:66
+#: lib/class-lrp-edit-form-controller.php:69
 msgid "Update"
 msgstr ""
 
-#: lib/class-lrp-edit-form-controller.php:67
+#: lib/class-lrp-edit-form-controller.php:70
 msgid "Submit for Review"
 msgstr ""
 
-#: lib/class-lrp-edit-form-controller.php:95
+#: lib/class-lrp-edit-form-controller.php:98
 msgid "Publish Revision"
 msgstr ""
 
-#: lib/class-lrp-edit-form-controller.php:96
+#: lib/class-lrp-edit-form-controller.php:99
 msgid "Discard"
 msgstr ""
 
-#: lib/class-lrp-edit-form-controller.php:120
+#: lib/class-lrp-edit-form-controller.php:123
 msgid ""
 "You are editing a pending revision. Please publish or discard it before "
 "making further changes."
 msgstr ""
 
-#: lib/class-lrp-edit-form-controller.php:120
+#: lib/class-lrp-edit-form-controller.php:123
 msgid "Compare versions"
 msgstr ""
 
-#: lib/class-lrp-edit-form-controller.php:197
+#: lib/class-lrp-edit-form-controller.php:198
 msgid "Revision discarded."
 msgstr ""
 
-#: lib/class-lrp-edit-form-controller.php:199
+#: lib/class-lrp-edit-form-controller.php:200
 msgid "Failed to delete the pending revision flag."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:95
+#: lib/class-lrp-options-controller.php:117
 msgid "Select specific users to notify"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:96
+#: lib/class-lrp-options-controller.php:118
 msgid "Select roles to notify"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:97
+#: lib/class-lrp-options-controller.php:119
 msgid "Select roles to restrict"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-#: lib/class-lrp-options-controller.php:124
-#: lib/class-lrp-options-controller.php:125
-#: lib/class-lrp-options-controller.php:255
+#: lib/class-lrp-options-controller.php:146
+#: lib/class-lrp-options-controller.php:147
+#: lib/class-lrp-options-controller.php:277
 msgid "Limit Revision Publishing"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:147
+#: lib/class-lrp-options-controller.php:169
 msgid "Notification Settings"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:153
+#: lib/class-lrp-options-controller.php:175
 msgid "Users to notify"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:160
+#: lib/class-lrp-options-controller.php:182
 msgid "Roles to notify"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:167
+#: lib/class-lrp-options-controller.php:189
 msgid "Email subject"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:174
+#: lib/class-lrp-options-controller.php:196
 msgid "Email body"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:182
+#: lib/class-lrp-options-controller.php:204
 msgid "Role Settings"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:188
+#: lib/class-lrp-options-controller.php:210
 msgid "Roles to restrict"
 msgstr ""
 
 #. TRANSLATORS: 1: Shortcode for editor email 2: Shortcode for revision title
-#: lib/class-lrp-options-controller.php:222
+#: lib/class-lrp-options-controller.php:244
 #, php-format
 msgid "Pending revision by %1$s on %2$s"
 msgstr ""
 
 #. TRANSLATORS: 1: Shortcode for revision URL 2: Shortcode for revision title 3: Shortcode for editor name 4: Shortcode for editor email
-#: lib/class-lrp-options-controller.php:234
+#: lib/class-lrp-options-controller.php:256
 #, php-format
 msgid ""
 "A new revision has been submitted for review. Please approve or deny it "
@@ -119,32 +119,56 @@ msgid ""
 "Revision submitted by: %3$s <%4$s>"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:268
+#: lib/class-lrp-options-controller.php:290
 msgid ""
 "Configure the notification email sent when a new revision is submitted for "
 "review."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:302
+#: lib/class-lrp-options-controller.php:324
 msgid "All users in these roles will receive notification emails."
 msgstr ""
 
 #. TRANSLATORS: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL
-#: lib/class-lrp-options-controller.php:314
-#: lib/class-lrp-options-controller.php:342
+#: lib/class-lrp-options-controller.php:336
+#: lib/class-lrp-options-controller.php:364
 #, php-format
 msgid "You can use %1$s, %2$s, %3$s, and %4$s shortcodes."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:357
+#: lib/class-lrp-options-controller.php:379
 msgid "Configure roles that should have restricted publishing."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:391
-msgid "Has publishing capabilities on some post types."
+#: lib/class-lrp-options-controller.php:383
+msgid "Role"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:413
+#: lib/class-lrp-options-controller.php:387
+msgid "Edits Locked Until Approved"
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:421
+msgid "Edits to all published posts must be approved."
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:424
+msgid "Edits to some published post types must be approved."
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:427
+msgid "Can edit and publish some post types, but not others."
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:430
+msgid "Can publish edits to any post type."
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:433
+msgid "Cannot edit any published posts."
+msgstr ""
+
+#: lib/class-lrp-options-controller.php:457
 msgid ""
 "All users in these roles will be restricted from publishing revisions on "
 "<strong>all</strong> post types."
