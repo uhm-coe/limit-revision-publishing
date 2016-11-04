@@ -372,7 +372,7 @@ class LRP_Options_Controller {
 
 
 	function callback__render_section_role_settings() {
-		$post_types = get_post_types(	array( 'show_in_nav_menus' => true ), 'objects' );
+		$post_types = get_post_types(	array( 'publicly_queryable' => true ), 'objects' );
 		$roles = get_editable_roles();
 		$restricted_roles = $this->get_option( 'roles_to_restrict' );
 		?>
