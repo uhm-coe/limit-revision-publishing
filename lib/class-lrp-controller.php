@@ -128,12 +128,14 @@ class LRP_Controller {
 				$email_subject = str_replace( '[editor_email]', $editor->user_email, $email_subject );
 				$email_subject = str_replace( '[revision_title]', $previous_revision->post_title, $email_subject );
 				$email_subject = str_replace( '[revision_url]', admin_url( 'revision.php?revision=' . $current_revision->ID ), $email_subject );
+				$email_subject = str_replace( '[edit_url]', get_edit_post_link( $post_id ), $email_subject );
 
 				$email_body = $this->options_controller->get_option( 'notification_email_body' );
 				$email_body = str_replace( '[editor_name]', $editor->display_name, $email_body );
 				$email_body = str_replace( '[editor_email]', $editor->user_email, $email_body );
 				$email_body = str_replace( '[revision_title]', $previous_revision->post_title, $email_body );
 				$email_body = str_replace( '[revision_url]', admin_url( 'revision.php?revision=' . $current_revision->ID ), $email_body );
+				$email_body = str_replace( '[edit_url]', get_edit_post_link( $post_id ), $email_body );
 
 				foreach ( $reviewers as $user_id => $reviewer ) {
 					wp_mail( $reviewer->user_email, $email_subject, $email_body );

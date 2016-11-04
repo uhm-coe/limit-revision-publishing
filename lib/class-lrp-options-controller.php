@@ -332,12 +332,13 @@ class LRP_Options_Controller {
 		?>
 		<input type="text" id="lrp_settings_<?php echo $option_name; ?>" name="lrp_settings[<?php echo $option_name; ?>]" value="<?php echo $option; ?>" style="width:100%;" /><br />
 		<small><?php printf(
-			/* TRANSLATORS: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL */
-			__( 'You can use %1$s, %2$s, %3$s, and %4$s shortcodes.', 'limit-revision-publishing' ),
+			/* TRANSLATORS: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL 5: Shortcode for edit URL */
+			__( 'You can use %1$s, %2$s, %3$s, %4$s, and %5$s shortcodes.', 'limit-revision-publishing' ),
 			'<b>[editor_name]</b>',
 			'<b>[editor_email]</b>',
 			'<b>[revision_title]</b>',
-			'<b>[revision_url]</b>'
+			'<b>[revision_url]</b>',
+			'<b>[edit_url]</b>'
 		); ?></small>
 		<?php
 	}
@@ -360,12 +361,13 @@ class LRP_Options_Controller {
 		);
 		?>
 		<small><?php printf(
-			/* TRANSLATORS: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL */
-			__( 'You can use %1$s, %2$s, %3$s, and %4$s shortcodes.', 'limit-revision-publishing' ),
+			/* TRANSLATORS: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL 5: Shortcode for edit URL */
+			__( 'You can use %1$s, %2$s, %3$s, %4$s, and %5$s shortcodes.', 'limit-revision-publishing' ),
 			'<b>[editor_name]</b>',
 			'<b>[editor_email]</b>',
 			'<b>[revision_title]</b>',
-			'<b>[revision_url]</b>'
+			'<b>[revision_url]</b>',
+			'<b>[edit_url]</b>'
 		); ?></small>
 		<?php
 	}
