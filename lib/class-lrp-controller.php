@@ -109,9 +109,13 @@ class LRP_Controller {
 				foreach ( $users_to_notify as $user_id ) {
 					$reviewers[$user_id] = get_user_by( $user_id );
 				}
-				$users_in_roles = get_users( array(
-					'role__in' => $this->options_controller->get_option( 'roles_to_notify' ),
-				));
+				$users_in_roles = array();
+				$roles_to_notify = $this->options_controller->get_option( 'roles_to_notify' );
+				if ( is_array( $roles_to_notify ) && count( $roles_to_notify ) > 0  ) {
+					$users_in_roles = get_users( array(
+						'role__in' => $roles_to_notify,
+					));
+				}
 				foreach ( $users_in_roles as $user ) {
 					$reviewers[$user->ID] = $user;
 				}
