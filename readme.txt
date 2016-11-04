@@ -1,7 +1,7 @@
 === Limit Revision Publishing ===
 Contributors: figureone
 Tags: revision, capability, publish, limit, workflow, permissions
-Requires at least: 4.0
+Requires at least: 3.9
 Tested up to: 4.5.3
 Stable tag: trunk
 License: GPLv2 or later
