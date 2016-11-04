@@ -252,9 +252,9 @@ class LRP_Options_Controller {
 			strlen( $lrp_settings['notification_email_body'] ) < 1
 		) {
 			$lrp_settings['notification_email_body'] = sprintf(
-				/* TRANSLATORS: 1: Shortcode for revision URL 2: Shortcode for revision title 3: Shortcode for editor name 4: Shortcode for editor email */
+				/* TRANSLATORS: 1: Shortcode for edit URL 2: Shortcode for revision title 3: Shortcode for editor name 4: Shortcode for editor email */
 				__( "A new revision has been submitted for review. Please approve or deny it here:\n%1\$s\n\nTitle: %2\$s\nRevision submitted by: %3\$s <%4\$s>", 'limit-revision-publishing' ),
-				'[revision_url]',
+				'[edit_url]',
 				'[revision_title]',
 				'[editor_name]',
 				'[editor_email]'
