@@ -25,6 +25,12 @@ Limit Revision Publishing restricts edits made by users without the publish_{pos
 
 == Changelog ==
 
+= 1.1.1 =
+* Add [edit_url] shortcode in notification emails.
+* Fix for all users being emailed if 'Roles to notify' setting was empty.
+* Fix for Role Settings missing custom post types with show_in_nav_menus=false (i.e., types meant to not show up under Appearance>Menus).
+* Fix: Remove redundant labels in Role Settings.
+
 = 1.1.0 =
 * Add ability to restrict any role's publishing capability.
 * Add descriptive table of roles to plugin options.
