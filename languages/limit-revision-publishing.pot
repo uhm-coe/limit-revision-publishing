@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Limit Revision Publishing\n"
-"POT-Creation-Date: 2016-08-18 15:27-1000\n"
-"PO-Revision-Date: 2016-08-16 11:49-1000\n"
+"POT-Creation-Date: 2016-11-04 10:51-1000\n"
+"PO-Revision-Date: 2016-11-04 10:24-1000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.11\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: plugin.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -129,46 +129,46 @@ msgstr ""
 msgid "All users in these roles will receive notification emails."
 msgstr ""
 
-#. TRANSLATORS: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL
+#. TRANSLATORS: 1: Shortcode for editor name 2: Shortcode for editor email 3: Shortcode for revision title 4: Shortcode for revision URL 5: Shortcode for edit URL
 #: lib/class-lrp-options-controller.php:336
-#: lib/class-lrp-options-controller.php:364
+#: lib/class-lrp-options-controller.php:365
 #, php-format
-msgid "You can use %1$s, %2$s, %3$s, and %4$s shortcodes."
+msgid "You can use %1$s, %2$s, %3$s, %4$s, and %5$s shortcodes."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:379
+#: lib/class-lrp-options-controller.php:381
 msgid "Configure roles that should have restricted publishing."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:383
+#: lib/class-lrp-options-controller.php:385
 msgid "Role"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:387
+#: lib/class-lrp-options-controller.php:389
 msgid "Edits Locked Until Approved"
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:421
+#: lib/class-lrp-options-controller.php:425
 msgid "Edits to all published posts must be approved."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:424
+#: lib/class-lrp-options-controller.php:428
 msgid "Edits to some published post types must be approved."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:427
+#: lib/class-lrp-options-controller.php:431
 msgid "Can edit and publish some post types, but not others."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:430
+#: lib/class-lrp-options-controller.php:434
 msgid "Can publish edits to any post type."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:433
+#: lib/class-lrp-options-controller.php:437
 msgid "Cannot edit any published posts."
 msgstr ""
 
-#: lib/class-lrp-options-controller.php:457
+#: lib/class-lrp-options-controller.php:461
 msgid ""
 "All users in these roles will be restricted from publishing revisions on "
 "<strong>all</strong> post types."
