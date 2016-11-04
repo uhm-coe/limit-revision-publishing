@@ -407,12 +407,14 @@ class LRP_Options_Controller {
 							?>
 							<td>
 								<span class="dashicons dashicons-<?php echo $can_publish ? 'yes' : 'no'; ?>"></span>
-								<?php if ( $is_restricted ) : ?><strike><?php endif; ?>
-								Publish <?php echo $post_type->label->name; ?>
-								<?php if ( $is_restricted ) : ?></strike><?php endif; ?>
+								<?php if ( $is_restricted ) : ?>
+									<strike>Publish</strike>
+								<?php else : ?>
+									Publish
+								<?php endif; ?>
 								<br>
 								<span class="dashicons dashicons-<?php echo $can_edit_published ? 'yes' : 'no'; ?>"></span>
-								Edit Published <?php echo $post_type->label->name; ?>
+								Edit Published
 							</td>
 						<?php endforeach; ?>
 						<td>
