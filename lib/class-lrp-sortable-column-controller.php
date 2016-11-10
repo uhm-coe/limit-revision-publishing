@@ -40,9 +40,13 @@ class LRP_Sortable_Column_Controller {
 		);
 
 		// Modify query to sort by Pending Revisions.
-		add_action( 'pre_get_posts',
-			array( $this, 'pre_get_posts__orderby_lrp_pending_revision' ),
-			10, 1
+		add_action( 'posts_join_paged',
+			array( $this, 'posts_join_paged__orderby_lrp_pending_revision' ),
+			10, 2
+		);
+		add_action( 'posts_orderby',
+			array( $this, 'posts_orderby__orderby_lrp_pending_revision' ),
+			10, 2
 		);
 	}
 
@@ -77,21 +81,30 @@ class LRP_Sortable_Column_Controller {
 	}
 
 
-	function pre_get_posts__orderby_lrp_pending_revision( $query ) {
-		// Only affect queries on admin pages.
-		if ( ! is_admin() ) {
-			return;
+	// NOTE: Hook into posts_join_paged and posts_orderby instead of pre_get_posts
+	// because of a bug in how WordPress sorts by postmeta values when some posts
+	// don't have that postmeta (the posts with NULL postmeta will get some other
+	// random value applied, so they will be sorted randomly). See the following
+	// for details:
+	// http://wordpress.stackexchange.com/questions/102447/sort-on-meta-value-but-include-posts-that-dont-have-one/141367#141367
+	function posts_join_paged__orderby_lrp_pending_revision( $join_statement, $query ) {
+		global $wpdb;
+		if ( is_admin() && $query->get( 'orderby' ) === 'pending_revision' ) {
+			$join_pending_revision = " LEFT JOIN {$wpdb->postmeta} AS lrp_postmeta ON {$wpdb->posts}.ID = lrp_postmeta.post_id AND lrp_postmeta.meta_key = 'lrp_pending_revision'";
+			if ( strpos( $join_statement, $join_pending_revision ) === FALSE ) {
+				$join_statement .= $join_pending_revision;
+			}
 		}
+		return $join_statement;
+	}
 
-		// Note: Use 'NOT EXISTS' to include posts without the meta key.
-		// See http://wordpress.stackexchange.com/questions/102447/sort-on-meta-value-but-include-posts-that-dont-have-one
-		if ( $query->get( 'orderby' ) === 'pending_revision' ) {
-			$query->set( 'meta_query', array(
-				'key' => 'lrp_pending_revision',
-				'compare' => 'NOT EXISTS',
-			));
-			$query->set( 'orderby', 'meta_value_num' );
+
+	function posts_orderby__orderby_lrp_pending_revision( $orderby_statement, $query ) {
+		if ( is_admin() && $query->get( 'orderby' ) === 'pending_revision' ) {
+			$order = strtolower( $query->get( 'order' ) ) === 'asc' ? 'ASC' : 'DESC';
+			$orderby_statement = "lrp_postmeta.meta_value $order";
 		}
+		return $orderby_statement;
 	}
 
 }
