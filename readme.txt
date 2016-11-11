@@ -25,6 +25,11 @@ Limit Revision Publishing restricts edits made by users without the publish_{pos
 
 == Changelog ==
 
+= 1.1.2 =
+* Add filter for Pending Revision to All Posts/Pages screen.
+* Fix for sorting by Pending Revision in All Posts/Pages screen.
+* Fix for Pages missing from permissions chart in plugin settings.
+
 = 1.1.1 =
 * Add [edit_url] shortcode in notification emails.
 * Fix for all users being emailed if 'Roles to notify' setting was empty.
