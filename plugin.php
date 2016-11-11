@@ -25,6 +25,9 @@ if ( ! class_exists( 'LRP_Controller' ) ) {
 if ( ! class_exists( 'LRP_Sortable_Column_Controller' ) ) {
 	require_once dirname( __FILE__ ) . '/lib/class-lrp-sortable-column-controller.php';
 }
+if ( ! class_exists( 'LRP_Filter_All_Posts_Controller' ) ) {
+	require_once dirname( __FILE__ ) . '/lib/class-lrp-filter-all-posts-controller.php';
+}
 if ( ! class_exists( 'LRP_Edit_Form_Controller' ) ) {
 	require_once dirname( __FILE__ ) . '/lib/class-lrp-edit-form-controller.php';
 }

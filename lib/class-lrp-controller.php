@@ -32,6 +32,9 @@ class LRP_Controller {
 		// Add sortable column to All Posts showing which posts have pending revisions.
 		$controller = new LRP_Sortable_Column_Controller();
 
+		// Add filter to All Posts to only show posts with pending revisions.
+		$controller = new LRP_Filter_All_Posts_Controller();
+
 		// Add modifications to Edit Post form for unprivileged users.
 		$controller = new LRP_Edit_Form_Controller( $this->options_controller );
 
