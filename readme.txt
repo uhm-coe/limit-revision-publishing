@@ -25,6 +25,9 @@ Limit Revision Publishing restricts edits made by users without the publish_{pos
 
 == Changelog ==
 
+= 1.1.3 =
+* Fix for PHP error on ACF Field Groups screen.
+
 = 1.1.2 =
 * Add filter for Pending Revision to All Posts/Pages screen.
 * Fix for sorting by Pending Revision in All Posts/Pages screen.
