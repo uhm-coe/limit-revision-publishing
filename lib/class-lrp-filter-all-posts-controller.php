@@ -26,16 +26,16 @@ class LRP_Filter_All_Posts_Controller {
 		global $typenow, $wp_query;
 		$lrp = isset( $_GET['lrp'] ) ? $_GET['lrp'] : '0';
 		$post_types = get_post_types(	array( 'public' => true ), 'objects' );
-		?>
-		<select name="lrp" id="lrp" class="postform">
-			<option value="0">
-				<?php echo $post_types[$typenow]->labels->all_items; ?>
-			</option>
-			<option value="pending"<?php if ( $lrp === 'pending' ) echo ' selected="selected"'; ?>>
-				<?php _e( 'Pending revisions only', 'limit-revision-publishing' ); ?>
-			</option>
-		</select>
-		<?php
+		if ( array_key_exists( $typenow, $post_types ) ) : ?>
+			<select name="lrp" id="lrp" class="postform">
+				<option value="0">
+					<?php echo $post_types[$typenow]->labels->all_items; ?>
+				</option>
+				<option value="pending"<?php if ( $lrp === 'pending' ) echo ' selected="selected"'; ?>>
+					<?php _e( 'Pending revisions only', 'limit-revision-publishing' ); ?>
+				</option>
+			</select>
+		<?php endif;
 	}
 
 
