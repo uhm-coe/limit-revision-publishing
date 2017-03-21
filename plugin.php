@@ -1,12 +1,7 @@
 <?php
 /**
  * Plugin Name: Limit Revision Publishing
- * Description: Revisions made by users without the publish_{post_type}
- * capability will be queued, and the original post will remain published. The
- * All Posts view in the WordPress Dashboard will contain a column indicating
- * posts with unpublished revisions. Notification emails can be sent to a subset
- * of users whenever a new revision has been submitted so users with elevated
- * privileges can publish them.
+ * Description: Limit Revision Publishing restricts edits made by users without the publish_{post_type} capability.
  * Author: Paul Ryan
  * Author URI: https://dcdc.coe.hawaii.edu
  * Plugin URI: https://wordpress.org/plugins/limit-revision-publishing
