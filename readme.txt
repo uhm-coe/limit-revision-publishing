@@ -15,9 +15,9 @@ Limit Revision Publishing restricts edits made by users without the publish_{pos
 
 == Installation ==
 
-1. Upload "insert-pages" to the "/wp-content/plugins/" directory.
+1. Upload "limit-revision-publishing" to the "/wp-content/plugins/" directory.
 1. Activate the plugin through the "Plugins" menu in WordPress.
-1. Use the toolbar button while editing any page to insert any other page.
+1. Set the requisite permissions and roles via the Settings -> Limit Revision Publishing options page.
 
 == Frequently Asked Questions ==
 
