@@ -21,6 +21,11 @@ class LRP_Controller {
 			PHP_INT_MAX, 3
 		);
 
+		add_action( 'save_post',
+			array( $this, 'save_post__notify_if_pending' ),
+			PHP_INT_MAX, 3
+		);
+
 		add_filter( 'acf/update_value',
 			array( $this, 'acf_update_value__revert_if_unprivileged' ),
 			10, 3
@@ -142,6 +147,28 @@ class LRP_Controller {
 		}
 
 		return $value;
+	}
+
+
+	/**
+	 * Send notification email when a new post is created as "Pending Review".
+	 *
+	 * Action hook: https://codex.wordpress.org/Plugin_API/Action_Reference/save_post
+	 *
+	 * @param int $post_id The post ID.
+	 * @param post $post The post object.
+	 * @param bool $update Whether this is an existing post being updated or not.
+	 */
+	function save_post__notify_if_pending( $post_id, $post, $update ) {
+		// If someone is creating a new post as pending, send notification emails.
+		if (
+			! $this->is_reverting &&
+			$post->post_status === 'pending' &&
+			! ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
+		) {
+			// Send notification emails.
+			$this->send_notification_emails( $post_id, $post, $post );
+		}
 	}
 
 
