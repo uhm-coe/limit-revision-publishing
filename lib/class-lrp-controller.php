@@ -106,44 +106,8 @@ class LRP_Controller {
 				// Add postmeta flag indicating this post has a revision pending.
 				update_post_meta( $post_id, 'lrp_pending_revision', $current_revision->ID );
 
-				// Get reviewers to send notifications to.
-				$reviewers = array();
-				$users_to_notify = $this->options_controller->get_option( 'users_to_notify' );
-				foreach ( $users_to_notify as $user_id ) {
-					$reviewers[$user_id] = get_user_by( "ID", $user_id );
-				}
-				$users_in_roles = array();
-				$roles_to_notify = $this->options_controller->get_option( 'roles_to_notify' );
-				if ( is_array( $roles_to_notify ) && count( $roles_to_notify ) > 0  ) {
-					$users_in_roles = get_users( array(
-						'role__in' => $roles_to_notify,
-					));
-				}
-				foreach ( $users_in_roles as $user ) {
-					$reviewers[$user->ID] = $user;
-				}
-
-				// Send notification email to reviewers.
-				$editor = wp_get_current_user();
-
-				$email_subject = $this->options_controller->get_option( 'notification_email_subject' );
-				$email_subject = str_replace( '[editor_name]', $editor->display_name, $email_subject );
-				$email_subject = str_replace( '[editor_email]', $editor->user_email, $email_subject );
-				$email_subject = str_replace( '[revision_title]', $previous_revision->post_title, $email_subject );
-				$email_subject = str_replace( '[revision_url]', admin_url( 'revision.php?revision=' . $current_revision->ID ), $email_subject );
-				$email_subject = str_replace( '[edit_url]', get_edit_post_link( $post_id ), $email_subject );
-
-				$email_body = $this->options_controller->get_option( 'notification_email_body' );
-				$email_body = str_replace( '[editor_name]', $editor->display_name, $email_body );
-				$email_body = str_replace( '[editor_email]', $editor->user_email, $email_body );
-				$email_body = str_replace( '[revision_title]', $previous_revision->post_title, $email_body );
-				$email_body = str_replace( '[revision_url]', admin_url( 'revision.php?revision=' . $current_revision->ID ), $email_body );
-				$email_body = str_replace( '[edit_url]', get_edit_post_link( $post_id ), $email_body );
-
-				foreach ( $reviewers as $user_id => $reviewer ) {
-					wp_mail( $reviewer->user_email, $email_subject, $email_body );
-				}
-
+				// Send notification emails.
+				$this->send_notification_emails( $post_id, $current_revision, $previous_revision );
 			}
 
 		}
@@ -178,6 +142,60 @@ class LRP_Controller {
 		}
 
 		return $value;
+	}
+
+
+	/**
+	 * Helper function to send notification emails when a new revision is
+	 * submitted for review to the users and roles listed in the plugin options.
+	 * @param  int $post_id  ID of post being edited.
+	 * @param  WP_Post $current_revision  Post revision with edits (or post itself if new)
+	 * @param  WP_Post $previous_revision Original revision (or post itself if new)
+	 * @return null
+	 */
+	function send_notification_emails( $post_id, $current_revision, $previous_revision ) {
+		// Bail if missing parameters.
+		if ( intval( $post_id ) < 1 || ! is_object( $current_revision ) || ! is_object( $previous_revision ) ) {
+			return;
+		}
+
+		// Get reviewers to send notifications to.
+		$reviewers = array();
+		$users_to_notify = $this->options_controller->get_option( 'users_to_notify' );
+		foreach ( $users_to_notify as $user_id ) {
+			$reviewers[$user_id] = get_user_by( "ID", $user_id );
+		}
+		$users_in_roles = array();
+		$roles_to_notify = $this->options_controller->get_option( 'roles_to_notify' );
+		if ( is_array( $roles_to_notify ) && count( $roles_to_notify ) > 0  ) {
+			$users_in_roles = get_users( array(
+				'role__in' => $roles_to_notify,
+			));
+		}
+		foreach ( $users_in_roles as $user ) {
+			$reviewers[$user->ID] = $user;
+		}
+
+		// Send notification email to reviewers.
+		$editor = wp_get_current_user();
+
+		$email_subject = $this->options_controller->get_option( 'notification_email_subject' );
+		$email_subject = str_replace( '[editor_name]', $editor->display_name, $email_subject );
+		$email_subject = str_replace( '[editor_email]', $editor->user_email, $email_subject );
+		$email_subject = str_replace( '[revision_title]', $previous_revision->post_title, $email_subject );
+		$email_subject = str_replace( '[revision_url]', admin_url( 'revision.php?revision=' . $current_revision->ID ), $email_subject );
+		$email_subject = str_replace( '[edit_url]', get_edit_post_link( $post_id ), $email_subject );
+
+		$email_body = $this->options_controller->get_option( 'notification_email_body' );
+		$email_body = str_replace( '[editor_name]', $editor->display_name, $email_body );
+		$email_body = str_replace( '[editor_email]', $editor->user_email, $email_body );
+		$email_body = str_replace( '[revision_title]', $previous_revision->post_title, $email_body );
+		$email_body = str_replace( '[revision_url]', admin_url( 'revision.php?revision=' . $current_revision->ID ), $email_body );
+		$email_body = str_replace( '[edit_url]', get_edit_post_link( $post_id ), $email_body );
+
+		foreach ( $reviewers as $user_id => $reviewer ) {
+			wp_mail( $reviewer->user_email, $email_subject, $email_body );
+		}
 	}
 
 
