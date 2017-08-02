@@ -25,6 +25,10 @@ Limit Revision Publishing restricts edits made by users without the publish_{pos
 
 == Changelog ==
 
+= 1.1.4 =
+* Fix for notification emails not being sent when creating a new post as Pending Review.
+* Fix for invalid parameters to get_user_by() causing certain notification emails not to send. Props @joelstransky!
+
 = 1.1.3 =
 * Fix for PHP error on ACF Field Groups screen.
 
