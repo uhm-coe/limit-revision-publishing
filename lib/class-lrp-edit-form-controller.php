@@ -150,7 +150,7 @@ class LRP_Edit_Form_Controller {
 	 * Load pending revision contents (for ACF fields) when any user tries to edit
 	 * a post with a pending revision.
 	 *
-	 * Filter hook: https://www.advancedcustomfields.com/resources/acfload_value/
+	 * Filter hook: https://www.advancedcustomfields.com/resources/acf-load_value/
 	 *
 	 * @param  string $value The value of the field as found in the database.
 	 * @param  int $post_id The post ID which the value was loaded from.
@@ -158,10 +158,13 @@ class LRP_Edit_Form_Controller {
 	 * @return string $value
 	 */
 	function acf_load_value__users_see_pending_revision( $value, $post_id, $field ) {
-		// If a revision is pending, load the contents of that revision to edit.
-		$pending_revision_id = intval( get_post_meta( $post_id, 'lrp_pending_revision', true ) );
-		if ( $pending_revision_id > 0 ) {
-			$value = get_post_meta( $pending_revision_id, $field['name'], true );
+		// Only show pending revision content when editing a post.
+		if ( is_admin() ) {
+			// If a revision is pending, load the contents of that revision to edit.
+			$pending_revision_id = intval( get_post_meta( $post_id, 'lrp_pending_revision', true ) );
+			if ( $pending_revision_id > 0 ) {
+				$value = get_post_meta( $pending_revision_id, $field['name'], true );
+			}
 		}
 
 		return $value;
