@@ -25,6 +25,9 @@ Limit Revision Publishing restricts edits made by users without the publish_{pos
 
 == Changelog ==
 
+= 1.1.6 =
+* Fix encoded ampersands in notification emails.
+
 = 1.1.5 =
 * Fix for pending revisions on ACF fields being shown.
 
