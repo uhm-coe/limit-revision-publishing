@@ -219,7 +219,6 @@ class LRP_Controller {
 		$email_body = str_replace( '[revision_title]', $previous_revision->post_title, $email_body );
 		$email_body = str_replace( '[revision_url]', admin_url( 'revision.php?revision=' . $current_revision->ID ), $email_body );
 		$email_body = str_replace( '[edit_url]', get_edit_post_link( $post_id, 'unencoded ampersands' ), $email_body );
-error_log($email_body);
 
 		foreach ( $reviewers as $user_id => $reviewer ) {
 			wp_mail( $reviewer->user_email, $email_subject, $email_body );
