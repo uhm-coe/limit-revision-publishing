@@ -25,6 +25,9 @@ Limit Revision Publishing restricts edits made by users without the publish_{pos
 
 == Changelog ==
 
+= 1.1.7 =
+* Fix for autosave content getting published if the autosave is the revision immediately prior to the current revision in the revision history.
+
 = 1.1.6 =
 * Fix encoded ampersands in notification emails.
 
