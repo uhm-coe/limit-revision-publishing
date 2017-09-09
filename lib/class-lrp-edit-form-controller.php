@@ -159,7 +159,7 @@ class LRP_Edit_Form_Controller {
 	 */
 	function acf_load_value__users_see_pending_revision( $value, $post_id, $field ) {
 		// Only show pending revision content when editing a post.
-		if ( is_admin() ) {
+		if ( is_admin() && ! ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
 			// If a revision is pending, load the contents of that revision to edit.
 			$pending_revision_id = intval( get_post_meta( $post_id, 'lrp_pending_revision', true ) );
 			if ( $pending_revision_id > 0 ) {
