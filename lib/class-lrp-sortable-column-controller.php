@@ -38,6 +38,10 @@ class LRP_Sortable_Column_Controller {
 			array( $this, 'sortable_columns_add_revisions' ),
 			10, 1
 		);
+		add_filter( 'init',
+			array( $this, 'init__register_sortable_columns_for_custom_post_types' ),
+			10, 1
+		);
 
 		// Modify query to sort by Pending Revisions.
 		add_action( 'posts_join_paged',
@@ -48,6 +52,19 @@ class LRP_Sortable_Column_Controller {
 			array( $this, 'posts_orderby__orderby_lrp_pending_revision' ),
 			10, 2
 		);
+	}
+
+
+	function init__register_sortable_columns_for_custom_post_types() {
+		// Make columns sortable for custom post types. (Note: we hook into init to
+		// register these hooks because custom post types won't be created before
+		// then.)
+		foreach ( get_post_types( array( 'public' => true, '_builtin' => false ) ) as $custom_post_type => $name ) {
+			add_filter( "manage_edit-{$custom_post_type}_sortable_columns",
+				array( $this, 'sortable_columns_add_revisions' ),
+				10, 1
+			);
+		}
 	}
 
 
