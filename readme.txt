@@ -25,6 +25,10 @@ Limit Revision Publishing restricts edits made by users without the publish_{pos
 
 == Changelog ==
 
+= 1.1.8 =
+* Fix for 'Pending Revision' column not sortable on custom post types.
+* Fix for pending content shown to logged in users if it was fetched via ajax.
+
 = 1.1.7 =
 * Fix for autosave content getting published if the autosave is the revision immediately prior to the current revision in the revision history.
 
