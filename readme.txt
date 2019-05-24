@@ -11,7 +11,7 @@ Limit Revision Publishing restricts edits made by users without the publish_{pos
 
 == Description ==
 
-Limit Revision Publishing restricts edits made by users without the publish_{post_type} capability. Their edits will be queued, and the original post will remain published. The All Posts view in the WordPress Dashboard will contain a column indicating posts with unpublished revisions. Notification emails can be sent to a subset of users whenever a new revision has been submitted so users with elevated privileges can publish them.
+Limit Revision Publishing restricts edits made by users without the publish_posts capability. Their edits will be saved as an unpublished revision, and the original post will remain published. The All Posts view in the WordPress Dashboard will contain a column indicating posts with unpublished revisions. Notification emails can be sent to a subset of users whenever a new revision has been submitted so users with elevated privileges can publish them. Finally, specific roles can be marked as limited, so any users with that role will be restricted from publishing revisions on all post types.
 
 == Installation ==
 
