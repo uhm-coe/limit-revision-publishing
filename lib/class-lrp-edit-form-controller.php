@@ -163,7 +163,8 @@ class LRP_Edit_Form_Controller {
 			// If a revision is pending, load the contents of that revision to edit.
 			$pending_revision_id = intval( get_post_meta( $post_id, 'lrp_pending_revision', true ) );
 			if ( $pending_revision_id > 0 ) {
-				$value = get_post_meta( $pending_revision_id, $field['name'], true );
+				$value = acf_get_metadata( $pending_revision_id, $field['name'] );
+				$value = apply_filters( "acf/load_value", $value, $pending_revision_id, $field );
 			}
 		}
 
