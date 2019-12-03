@@ -7,7 +7,7 @@
  * Plugin URI: https://wordpress.org/plugins/limit-revision-publishing
  * Text Domain: limit-revision-publishing
  * Domain Path: /languages
- * Version: 1.1.8
+ * Version: 1.1.9
  * License: GPL2+
  */
 

@@ -25,6 +25,9 @@ Limit Revision Publishing restricts edits made by users without the publish_post
 
 == Changelog ==
 
+= 1.1.9 =
+* Fix for some ACF field values not restoring properly. [Ref](https://github.com/uhm-coe/limit-revision-publishing/commit/0d376f02f64bbbc60acc1a144eea54bec24a22eb)
+
 = 1.1.8 =
 * Fix for 'Pending Revision' column not sortable on custom post types.
 * Fix for pending content shown to logged in users if it was fetched via ajax.
