@@ -25,6 +25,10 @@ Note: this plugin only works with the Classic Editor (TinyMCE). Users of the Blo
 
 == Changelog ==
 
+= 1.1.10 =
+* Upgrade select2 library to version 4.0.13.
+* Note: this plugin only works with the Classic Editor (TinyMCE). Users of the Block Editor (Gutenberg) will be able to publish any post types granted by the capabilities in their assigned role.
+
 = 1.1.9 =
 * Fix for some ACF field values not restoring properly. [Ref](https://github.com/uhm-coe/limit-revision-publishing/commit/0d376f02f64bbbc60acc1a144eea54bec24a22eb)
 

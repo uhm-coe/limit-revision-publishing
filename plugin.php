@@ -8,7 +8,7 @@
  * Text Domain: limit-revision-publishing
  * Domain Path: /languages
  * Requires at least: 3.9
- * Version: 1.1.9
+ * Version: 1.1.10
  * License: GPL2+
  */
 
