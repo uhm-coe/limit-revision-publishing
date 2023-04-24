@@ -122,13 +122,13 @@ class LRP_Options_Controller {
 
 			wp_enqueue_script(
 				'select2',
-				plugins_url( '/vendor/select2-4.0.3/js/select2.min.js', dirname( __FILE__ ) ),
+				plugins_url( '/vendor/select2-4.0.13/js/select2.min.js', dirname( __FILE__ ) ),
 				array( 'jquery' ),
 				'20160726'
 			);
 			wp_enqueue_style(
 				'select2',
-				plugins_url( '/vendor/select2-4.0.3/css/select2.min.css', dirname( __FILE__ ) ),
+				plugins_url( '/vendor/select2-4.0.13/css/select2.min.css', dirname( __FILE__ ) ),
 				array(),
 				'20160726'
 			);
