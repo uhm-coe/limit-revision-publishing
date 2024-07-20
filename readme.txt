@@ -1,7 +1,7 @@
 === Limit Revision Publishing ===
 Contributors: figureone
-Tags: revision, capability, publish, limit, workflow, permissions
-Tested up to: 6.2
+Tags: revision, capability, publish, limit, permissions
+Tested up to: 6.6
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
