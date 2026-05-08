@@ -2,7 +2,7 @@
 Contributors: figureone
 Tags: revision, capability, publish, limit, permissions
 Tested up to: 6.9
-Stable tag: 1.1.10
+Stable tag: 1.1.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,10 @@ Note: this plugin only works with the Classic Editor (TinyMCE). Users of the Blo
 == Screenshots ==
 
 == Changelog ==
+
+= 1.1.11 =
+* Tested up to WordPress 6.9.
+* Enable plugin release confirmations (security).
 
 = 1.1.10 =
 * Upgrade select2 library to version 4.0.13.
